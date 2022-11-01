@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -106,8 +108,8 @@ namespace DatabaseToXml
                                  new XElement("EARCHIVE_SEND_MODE", 1),
                                  new XElement("PROFILE_ID", 2),
                                  new XElement("NAME", NAME[i]),
-                                 new XElement("SURNAME", SURNAME[i]),
-                                 new XElement("KVKK_BEGIN_DATE", KVKK_BEGIN_DATE[i])
+                                 new XElement("SURNAME", SURNAME[i])
+                               
                            )//AR_AP end 
                            )//AR_APSSSS end
                            );//documant end
@@ -227,7 +229,7 @@ namespace DatabaseToXml
                             #region AllNeededVaribles
                             string[] NUMBER1 = stringArrayDoldur(sorgu);
                             string[] DOC_TRACK_NR = stringArrayDoldur(sorgu);
-                            string[] DATE = stringArrayDoldur(sorgu);
+                            string[] DATE = stringArrayDoldur("SELECT  items_orderDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] TIME = stringArrayDoldur(sorgu);
                             string[] DOC_NUMBER = stringArrayDoldur(sorgu);
                             string[] AUXIL_CODE = stringArrayDoldur(sorgu);
@@ -259,7 +261,6 @@ namespace DatabaseToXml
                             string[] PC_PRICE = stringArrayDoldur(sorgu);
                             string[] RC_XRATE = stringArrayDoldur(sorgu);
                             string[] TOTAL_NET = stringArrayDoldur(sorgu);
-                            string[] RESERVE_DATE = stringArrayDoldur(sorgu);
                             string[] RESERVE_AMOUNT = stringArrayDoldur(sorgu);
                             string[] CUST_ORD_NO = stringArrayDoldur(sorgu);
                             string[] DOC_TRACKING_NR = stringArrayDoldur(sorgu);
@@ -270,6 +271,7 @@ namespace DatabaseToXml
                             string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] quantity = stringArrayDoldur("SELECT  items_quantity FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] dueDate = stringArrayDoldur("SELECT  items_dueDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
 
                             //her orderın içindeki çoklu olabilen değer
                             XElement[] a = new XElement[Totalamount.Length];
@@ -282,33 +284,36 @@ namespace DatabaseToXml
                                      new XElement("PRICE", unitPrice[j]),
                                      new XElement("TOTAL", Totalamount[j]),
                                      new XElement("VAT_RATE", vatRate[j]),
-                                     new XElement("UNIT_CODE", "A"),
-                                     new XElement("UNIT_CONV2", "A"),
-                                     new XElement("ORDER_RESERVE", "A"),
+                                     new XElement("UNIT_CODE", 1),//birim kodu tl için 1
+                                     new XElement("UNIT_CONV2", 1),//çevrim katsayısı
+                                     new XElement("ORDER_RESERVE", 1),
                                      new XElement("DUE_DATE", dueDate[j].Split(' ')[0]),
-                                     new XElement("CURR_PRICE", "A"),
-                                     new XElement("PC_PRICE", "A"),
-                                     new XElement("RC_XRATE", "A"),
-                                     new XElement("TOTAL_NET", "A"),
-                                     new XElement("RESERVE_DATE", "A"),
-                                     new XElement("RESERVE_AMOUNT", "A")
+                                     new XElement("CURR_PRICE", 1),//tl için 1
+                                    // new XElement("PC_PRICE", "A"),
+                                     //new XElement("RC_XRATE", "A"),
+                                     //new XElement("TOTAL_NET", "A"),
+                                     new XElement("RESERVE_DATE", RESERVE_DATE[j]),
+                                     new XElement("RESERVE_AMOUNT", 1)
                                      );
                             }
 
                             XElement transactions = new XElement("TRANSACTIONS");
                             transactions.Add(a);
 
+                            DateTimeOffset dateTimeOffset = new DateTimeOffset();
+                            DateTimeOffset.TryParseExact(DATE[i], @"HH\:mm\:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeOffset);
+                           
                             XDocument doc = new XDocument(
                            new XElement("SALES_ORDERS",
                            new XElement("ORDER_SLIP",
-                                 new XElement("NUMBER", NUMBER[i]),
-                                 new XElement("DOC_TRACK_NR", DOC_TRACK_NR[i]),
-                                 new XElement("DATE", dueDate[i].Split(' ')[0]),
-                                 new XElement("TIME", TIME[i]),
+                                // new XElement("NUMBER", NUMBER[i]),
+                                 new XElement("DOC_TRACK_NR", DOC_TRACK_NR[i]),//@AYNI1
+                                 new XElement("DATE", DATE[i].Split(' ')[0]),
+                                 new XElement("TIME", DATE[i].Split(' ')[1]),
                                  new XElement("DOC_NUMBER", DOC_NUMBER[i]),
-                                 new XElement("AUXIL_CODE", AUXIL_CODE[i]),
+                                 new XElement("AUXIL_CODE", "HB Öder"),
                                  new XElement("ARP_CODE", ARP_CODE[i]),
-                                 new XElement("RC_RATE", RC_RATE[i]),
+                                 new XElement("RC_RATE", "1"),
                                  new XElement("NOTES1", NOTES1[i]),
                                  new XElement("NOTES2", NOTES2[i]),
                                  new XElement("NOTES3", NOTES3[i]),
@@ -317,8 +322,8 @@ namespace DatabaseToXml
                                  new XElement("CURRSEL_TOTAL", "2"),
                                 transactions
                                 ,//Transactions Altı
-                               new XElement("CUST_ORD_NO", CUST_ORD_NO[i]),
-                               new XElement("DOC_TRACKING_NR", DOC_TRACKING_NR[i])
+                               new XElement("CUST_ORD_NO", CUST_ORD_NO[i]),//@AYNI1
+                               new XElement("DOC_TRACKING_NR", DOC_TRACKING_NR[i])//@AYNI1
                             )
                            //orderslipin altı
 
