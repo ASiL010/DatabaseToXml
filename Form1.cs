@@ -194,7 +194,6 @@ namespace DatabaseToXml
         }
         public string[] stringArrayDoldur(string Sorgunuz)
         {
-
             baglanti = new SqlConnection(connectionString);
             adapter = new SqlDataAdapter(Sorgunuz, baglanti);
             ds = new DataSet();
@@ -273,7 +272,6 @@ namespace DatabaseToXml
                             string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
 
-                            string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
 
                             #endregion
 
@@ -281,28 +279,20 @@ namespace DatabaseToXml
                             XElement[] a = new XElement[Totalamount.Length];
                             for (int j = 0; j < a.Length; j++)
                             {
-                                string[] MASTER_DEFfromSKU;
-                                MASTER_DEFfromSKU = stringArrayDoldur("SELECT Distinct ProductName FROM [DataFromExel].[dbo].[PerformansS] where Sku='" + SKUasMasterCode[j] + "'");
-                                 string ürünadı = null;
-                                if (MASTER_DEFfromSKU.Length>0)
+                                 string ürünadı = "Tanımsız";
+                                string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
+                                try
                                 {
-                                  ürünadı = MASTER_DEFfromSKU[0];
+                                    ürünadı = MASTER_DEF[0].Split('|')[j];
                                 }
-                                else
+                                catch (Exception)
                                 {
-                                    try
+                                    if (MASTER_DEF.Length>0)
                                     {
-
-                                         ürünadı = MASTER_DEF[j].Split('|')[j];
+                                        ürünadı = MASTER_DEF[0];
                                     }
-                                    catch (Exception)
-                                    {
-
-                                          ürünadı = "Tanımsız";   
-                                    }
+                                  
                                 }
-                                
-                               
                                 a[j] = new XElement("TRANSACTION");
 
                                 a[j].Add(new XElement("TYPE", "0"),
