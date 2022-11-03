@@ -32,6 +32,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.CariKaydetBTN = new System.Windows.Forms.Button();
             this.SirketSahıs = new System.Windows.Forms.CheckBox();
+            this.UrunKaydet = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -74,11 +75,22 @@
             this.SirketSahıs.Text = "Şahıs Şirketleri için Seçiniz";
             this.SirketSahıs.UseVisualStyleBackColor = true;
             // 
+            // UrunKaydet
+            // 
+            this.UrunKaydet.Location = new System.Drawing.Point(284, 240);
+            this.UrunKaydet.Name = "UrunKaydet";
+            this.UrunKaydet.Size = new System.Drawing.Size(75, 23);
+            this.UrunKaydet.TabIndex = 4;
+            this.UrunKaydet.Text = "UrunKaydet";
+            this.UrunKaydet.UseVisualStyleBackColor = true;
+            this.UrunKaydet.Click += new System.EventHandler(this.UrunKaydet_Clk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.UrunKaydet);
             this.Controls.Add(this.SirketSahıs);
             this.Controls.Add(this.CariKaydetBTN);
             this.Controls.Add(this.button2);
@@ -97,6 +109,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button CariKaydetBTN;
         private System.Windows.Forms.CheckBox SirketSahıs;
+        private System.Windows.Forms.Button UrunKaydet;
     }
 }
 

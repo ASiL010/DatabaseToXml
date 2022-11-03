@@ -21,7 +21,7 @@ namespace DatabaseToXml
         private DataSet ds;
         #endregion
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
-        Thread SatışSipariş, CariHesap;
+        Thread SatışSipariş, CariHesap,ÜRÜNLER;
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +31,7 @@ namespace DatabaseToXml
         {
             SatışSipariş = new Thread(SatıŞSiparisiKaydetBaslaTread);
             CariHesap = new Thread(CariHesapKaydetBaslaTread);
+            ÜRÜNLER = new Thread(ÜrünKaydetBaslaTread);
         }
         string savingPath = Directory.GetCurrentDirectory();
         private void KaydetBasla_Clk(object sender, EventArgs e)
@@ -50,7 +51,13 @@ namespace DatabaseToXml
             if (sem.CurrentCount == 0) sem.Release();
 
         }
+        private void UrunKaydet_Clk(object sender, EventArgs e)
+        {
+            if (ÜRÜNLER.ThreadState == System.Threading.ThreadState.Unstarted)
+                ÜRÜNLER.Start();
+            if (sem.CurrentCount == 0) sem.Release();
 
+        }
         private void KaydetmeYeri_Clk(object sender, EventArgs e)
         {
 
@@ -209,6 +216,8 @@ namespace DatabaseToXml
             return ReturnValue;
         }
 
+        
+
         private void SatıŞSiparisiKaydetBaslaTread()
         {
             while (true)
@@ -300,8 +309,9 @@ namespace DatabaseToXml
                                      new XElement("MASTER_DEF", ürünadı),//ürün adı
                                      new XElement("QUANTITY", quantity[j]),
                                      new XElement("PRICE", unitPrice[j]),
-                                     new XElement("TOTAL", Totalamount[j]),
+                                     //new XElement("TOTAL", Totalamount[j]),
                                      new XElement("VAT_RATE", vatRate[j]),
+                                     new XElement("UNIT_CODE", "ADET"),//adet
                                      new XElement("UNIT_CODE", 1),//birim kodu tl için 1
                                      new XElement("UNIT_CONV2", 1),//çevrim katsayısı
                                      new XElement("ORDER_RESERVE", 1),
@@ -330,7 +340,7 @@ namespace DatabaseToXml
                                  new XElement("TIME", DATE[i].Split(' ')[1]),
                                  new XElement("DOC_NUMBER", DOC_NUMBER[i]),
                                  new XElement("AUXIL_CODE", "HB Öder"),
-                                 new XElement("ARP_CODE", ARP_CODE[i]),
+                                 new XElement("ARP_CODE", 625),
                                  new XElement("RC_RATE", "1"),
                                  new XElement("NOTES1", NOTES1[i]),
                                  new XElement("NOTES2", NOTES2[i]),
@@ -347,6 +357,124 @@ namespace DatabaseToXml
 
                            )
                    //salesorderın altı
+                   );
+                            doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+
+                            doc.Save(savingPath + "\\" + NOTES1[i] + ".xml");
+
+                        }
+                    }
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
+
+        private void ÜrünKaydetBaslaTread()
+        {
+            while (true)
+            {
+                sem.Wait();
+                try
+                {
+                    string[] orderNumbers = stringArrayDoldur("SELECT Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis]");
+                    for (int k = 0; k < orderNumbers.Length; k++)
+                    {//eşi olmayan veri sayısı 56
+                        string sorgu = "SELECT  Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k];
+                        //her orderın içindeki veriler
+                        string[] NUMBER = stringArrayDoldur(sorgu);
+                        for (int i = 0; i < NUMBER.Length; i++)//numberLength genelde 1 olur
+                        {
+                            #region AllNeededVaribles
+                            string[] NUMBER1 = stringArrayDoldur(sorgu);
+                            string[] DOC_TRACK_NR = stringArrayDoldur(sorgu);
+                            string[] DATE = stringArrayDoldur("SELECT  items_orderDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] TIME = stringArrayDoldur(sorgu);
+                            string[] DOC_NUMBER = stringArrayDoldur(sorgu);
+                            string[] AUXIL_CODE = stringArrayDoldur(sorgu);
+                            string[] ARP_CODE = stringArrayDoldur(sorgu);
+                            string[] RC_RATE = stringArrayDoldur(sorgu);
+                            string[] NOTES1 = stringArrayDoldur("SELECT items_invoice_address_name FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] NOTES2 = stringArrayDoldur("SELECT items_invoice_address_district FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] NOTES3 = stringArrayDoldur("SELECT items_invoice_address_town FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] NOTES5 = stringArrayDoldur("SELECT items_invoice_address_city FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] ORDER_STATUS = stringArrayDoldur(sorgu);
+                            string[] CREATED_BY = stringArrayDoldur(sorgu);
+                            string[] DATE_CREATED = stringArrayDoldur(sorgu);
+                            string[] HOUR_CREATED = stringArrayDoldur(sorgu);
+                            string[] MIN_CREATED = stringArrayDoldur(sorgu);
+                            string[] SEC_CREATED = stringArrayDoldur(sorgu);
+                            string[] MODIFIED_BY = stringArrayDoldur(sorgu);
+                            string[] CURRSEL_TOTAL = stringArrayDoldur(sorgu);
+                            string[] TYPE = stringArrayDoldur(sorgu);
+                            string[] MASTER_CODE = stringArrayDoldur(sorgu);
+                            string[] QUANTITY = stringArrayDoldur(sorgu);
+                            string[] PRICE = stringArrayDoldur(sorgu);
+                            string[] TOTAL = stringArrayDoldur(sorgu);
+                            string[] VAT_RATE = stringArrayDoldur(sorgu);
+                            string[] UNIT_CODE = stringArrayDoldur(sorgu);
+                            string[] UNIT_CONV2 = stringArrayDoldur(sorgu);
+                            string[] ORDER_RESERVE = stringArrayDoldur(sorgu);
+                            string[] DUE_DATE = stringArrayDoldur(sorgu);
+                            string[] CURR_PRICE = stringArrayDoldur(sorgu);
+                            string[] PC_PRICE = stringArrayDoldur(sorgu);
+                            string[] RC_XRATE = stringArrayDoldur(sorgu);
+                            string[] TOTAL_NET = stringArrayDoldur(sorgu);
+                            string[] RESERVE_AMOUNT = stringArrayDoldur(sorgu);
+                            string[] CUST_ORD_NO = stringArrayDoldur(sorgu);
+                            string[] DOC_TRACKING_NR = stringArrayDoldur(sorgu);
+
+
+                            string[] Totalamount = stringArrayDoldur("SELECT  items_totalPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] unitPrice = stringArrayDoldur("SELECT  items_unitPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] quantity = stringArrayDoldur("SELECT  items_quantity FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] dueDate = stringArrayDoldur("SELECT  items_dueDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+
+
+                            #endregion
+
+                            //her orderın içindeki çoklu olabilen değer
+                            XElement ünitler = new XElement("UNITS");
+                            ünitler = new XElement("UNIT");//UNTİ ALTA EKLE
+
+                            ünitler.Add(new XElement("UNIT_CODE", "ADET"),
+                                     new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
+                                     new XElement("USEF_PURCHCLAS", 1),//ürün adı
+                                     new XElement("USEF_SALESCLAS", 1),
+                                     new XElement("CONV_FACT1", 1),
+                                     new XElement("CONV_FACT2", 1)
+                                     );
+                            
+
+                            XDocument doc = new XDocument(
+                           new XElement("ITEMS",
+                           new XElement("ITEM",
+                                 new XElement("CARD_TYPE", 1),
+                                 new XElement("CODE", ""),
+                                 new XElement("NAME", ""),
+                                 new XElement("USEF_PURCHASING", 1),
+                                 new XElement("USEF_SALES", 1),
+                                 new XElement("USEF_MM", 1),
+                                 new XElement("VAT", ""),
+                                 new XElement("AUTOINCSL",1),
+                                 new XElement("LOTS_DIVISIBLE", 1),
+                                 new XElement("UNITSET_CODE", "ADET"),
+                                ünitler,
+                               new XElement("MULTI_ADD_TAX", 0),
+                               new XElement("PACKET", 11),
+                               new XElement("SELVAT", ""),
+                               new XElement("RETURNVAT", ""),
+                               new XElement("SELPRVAT", ""),
+                                       new XElement("RETURNPRVAT", "")
+                            )
+
+                           )
                    );
                             doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
 
