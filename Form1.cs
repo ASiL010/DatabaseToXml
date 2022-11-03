@@ -290,7 +290,8 @@ namespace DatabaseToXml
                             XElement[] a = new XElement[Totalamount.Length];
                             for (int j = 0; j < a.Length; j++)
                             {
-                                 string ürünadı = "Tanımsız";
+                                #region MaterialKaydet_DOC
+                                string ürünadı = "Tanımsız";
                                 try
                                 {
                                     ürünadı = MASTER_DEF[0].Split('|')[j];
@@ -340,12 +341,15 @@ namespace DatabaseToXml
                                 }
                                 catch (Exception)
                                 {
-                                    if (MASTER_DEF.Length>0)
+                                    if (MASTER_DEF.Length > 0)
                                     {
                                         ürünadı = MASTER_DEF[0];
                                     }
-                                  
+
                                 }
+                                //-----------------------------
+                                #endregion
+                                #region ÇokluTransactionKısmı
                                 a[j] = new XElement("TRANSACTION");
 
                                 a[j].Add(new XElement("TYPE", "0"),
@@ -367,19 +371,12 @@ namespace DatabaseToXml
                                      new XElement("RESERVE_DATE", RESERVE_DATE[j].Split(' ')[0]),
                                      new XElement("RESERVE_AMOUNT", 1)
                                      );
-
-
-
-
-
+#endregion
                             }
+                            #region SatişSiparişi_DOC
 
                             XElement transactions = new XElement("TRANSACTIONS");
                             transactions.Add(a);
-
-                        //    DateTimeOffset dateTimeOffset = new DateTimeOffset();
-                          //  DateTimeOffset.TryParseExact(DATE[i], @"HH\:mm\:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeOffset);
-
                             XDocument doc = new XDocument(
                            new XElement("SALES_ORDERS",
                            new XElement("ORDER_SLIP",
@@ -411,8 +408,8 @@ namespace DatabaseToXml
                             System.IO.Directory.CreateDirectory(savingPath +"\\SatışSipariş");
                             doc.Save(savingPath + "\\SatışSipariş\\" + NOTES1[i] + ".xml");
 
-                            
 
+#endregion
                         }
                     }
                 }
