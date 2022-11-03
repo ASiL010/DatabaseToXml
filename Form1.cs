@@ -220,10 +220,6 @@ namespace DatabaseToXml
 
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
-                if (ds.Tables[0].Rows[i][0].ToString()==null)
-                {
-                    ReturnValue[i] = "";
-                }else
                 ReturnValue[i] = ds.Tables[0].Rows[i][0].ToString();
             }
             baglanti.Close();
@@ -269,12 +265,32 @@ namespace DatabaseToXml
                             string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
 
 
-                            string[] TAX_ID = stringArrayDoldur("SELECT [items_invoice_taxNumber] FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-
+                            #region dateFixes
+                            string duedateFİX = "";
+                            if (dueDate[i].Split(' ')[0].Length == 9)
+                            {
+                                duedateFİX = "0" + dueDate[i].Split(' ')[0];
+                            }
+                            string DATEFİX = "";
+                            if (DATE[i].Split(' ')[0].Length == 9)
+                            {
+                                DATEFİX = "0" + DATE[i].Split(' ')[0];
+                            }
+                            string reservedateFix = "";
+                            if (RESERVE_DATE[i].Split(' ')[0].Length == 9)
+                            {
+                                reservedateFix = "0" + RESERVE_DATE[i].Split(' ')[0];
+                            }
                             #endregion
-                            #region ŞahısŞirket
-                            
+                            #endregion
+
+
+
+
+                            #region Cari Hesaplar
+
                             #region AllNeededVaribles
+                            string[] TAX_ID = stringArrayDoldur("SELECT [items_invoice_taxNumber] FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] E_MAIL = stringArrayDoldur("SELECT distinct [items_invoice_address_addressId] FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k]);
                             string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + E_MAIL[i] + "'");
                             string[] TITLE = stringArrayDoldur("Select [Mad] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + E_MAIL[i] + "'");
@@ -285,14 +301,14 @@ namespace DatabaseToXml
                            // string[] TAX_ID = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]=" + E_MAIL[i]);
                             string[] TAX_OFFICE = stringArrayDoldur("Select items_invoice_taxOffice FROM tbl_siparis where [items_invoice_address_addressId] ='" + E_MAIL[i] + "'");
 
-                            string[] CONTACT = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
-                            string[] CONTACT2 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                          //  string[] CONTACT = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                            //string[] CONTACT2 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
                             string[] NAME = stringArrayDoldur("Select [items_customerName] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
-                           // string[] SURNAME = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]=" + E_MAIL[i]);
-                            string[] POST_LABEL = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
-                            string[] SENDER_LABEL = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
-                            string[] EARC_EMAIL_ADDRESS1 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
-                            string[] KVKK_BEGIN_DATE = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                            // string[] SURNAME = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]=" + E_MAIL[i]);
+                            //string[] POST_LABEL = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                            //string[] SENDER_LABEL = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                            //string[] EARC_EMAIL_ADDRESS1 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
+                            //string[] KVKK_BEGIN_DATE = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + E_MAIL[i] + "'");
                             #endregion
 
 
@@ -300,13 +316,13 @@ namespace DatabaseToXml
                             {
 
 
-                             
+
                                 for (int z = 0; z < CODE.Length; z++)
                                 {
 
 
 
-                                    XDocument doc = new XDocument(
+                                    XDocument doc1 = new XDocument(
                                    new XElement("AR_APS",
                                    new XElement("AR_AP",
                                          new XElement("ACCOUNT_TYPE", 3),
@@ -334,13 +350,11 @@ namespace DatabaseToXml
                                    );//documant end
 
 
-                                    doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                                    doc1.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                     System.IO.Directory.CreateDirectory(savingPath + "\\Cari");
-                                    doc.Save(savingPath + "\\Cari\\" + CODE[i] + ".xml");
+                                    doc1.Save(savingPath + "\\Cari\\" + CODE[i] + ".xml");
                                 }
                             }
-                            #endregion
-                            #region FİRMA
 
 
                             else
@@ -372,11 +386,11 @@ namespace DatabaseToXml
                                          new XElement("PROFILE_ID", 2),
                                          new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                          new XElement("CONTACT2", NAME[z].Split(' ').Last())
-                                            //[NAME[z].Split(' ').Length - 1]
-                                                                                    //,
-                                                                                    //     new XElement("POST_LABEL", POST_LABEL[z]),
-                                                                                    //    new XElement("SENDER_LABEL", SENDER_LABEL[z])
-                                                                                    //new XElement("EARC_EMAIL_ADDRESS1", EARC_EMAIL_ADDRESS1[i])
+                                   //[NAME[z].Split(' ').Length - 1]
+                                   //,
+                                   //     new XElement("POST_LABEL", POST_LABEL[z]),
+                                   //    new XElement("SENDER_LABEL", SENDER_LABEL[z])
+                                   //new XElement("EARC_EMAIL_ADDRESS1", EARC_EMAIL_ADDRESS1[i])
                                    )//AR_AP end 
                                    )//AR_APSSSS end
                                    );//documant end
@@ -388,9 +402,8 @@ namespace DatabaseToXml
                                     doc1.Save(savingPath + "\\Cari\\" + CODE[i] + ".xml");
                                 }
                                 #endregion
-
-
-
+                            }
+                               
                                 //her orderın içindeki çoklu olabilen değer                                
                                 XElement[] a = new XElement[Totalamount.Length];
                                 for (int j = 0; j < a.Length; j++)
@@ -468,17 +481,18 @@ namespace DatabaseToXml
                                          new XElement("UNIT_CODE", 1),//birim kodu tl için 1
                                          new XElement("UNIT_CONV2", 1),//çevrim katsayısı
                                          new XElement("ORDER_RESERVE", 1),
-                                         new XElement("DUE_DATE", dueDate[j].Split(' ')[0]),
+                                         new XElement("DUE_DATE", duedateFİX),
                                          new XElement("CURR_PRICE", 1),//tl için 1
                                                                        // new XElement("PC_PRICE", "A"),
                                                                        //new XElement("RC_XRATE", "A"),
                                                                        //new XElement("TOTAL_NET", "A"),
-                                         new XElement("RESERVE_DATE", RESERVE_DATE[j].Split(' ')[0]),
+                                         new XElement("RESERVE_DATE", reservedateFix),
                                          new XElement("RESERVE_AMOUNT", 1)
                                          );
                                     #endregion
                                 }
                                 #region SatişSiparişi_DOC
+
 
                                 XElement transactions = new XElement("TRANSACTIONS");
                                 transactions.Add(a);
@@ -487,11 +501,11 @@ namespace DatabaseToXml
                                new XElement("ORDER_SLIP",
                                      // new XElement("NUMBER", NUMBER[i]),
                                      new XElement("DOC_TRACK_NR", DOC_TRACK_NR[i]),//@AYNI1
-                                     new XElement("DATE", DateTime.Parse(DATE[i].Split(' ')[0])),
+                                     new XElement("DATE", DATEFİX),
                                      new XElement("TIME", DATE[i].Split(' ')[1]),
                                      new XElement("DOC_NUMBER", DOC_NUMBER[i]),
                                      new XElement("AUXIL_CODE", "HB Öder"),
-                                     new XElement("ARP_CODE", 625),
+                                     new XElement("ARP_CODE", CODE),
                                      new XElement("RC_RATE", "1"),
                                      new XElement("NOTES1", NOTES1[i]),
                                      new XElement("NOTES2", NOTES2[i]),
@@ -521,7 +535,7 @@ namespace DatabaseToXml
                             }
                         }
                     }
-                }
+                
 
                 finally
                 {
@@ -538,13 +552,7 @@ namespace DatabaseToXml
                 try
                 {
                     string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] ");
-                
                     string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] ");
-
-
-                    
-                    
-                    
                     string[] ürünadı;
                     string[] SKU;
                     for (int i = 0; i < MASTER_DEF.Length; i++)
