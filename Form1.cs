@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -280,6 +281,7 @@ namespace DatabaseToXml
                             string[] dueDate = stringArrayDoldur("SELECT  items_dueDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
                             string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                            string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
 
 
                             #endregion
@@ -289,10 +291,52 @@ namespace DatabaseToXml
                             for (int j = 0; j < a.Length; j++)
                             {
                                  string ürünadı = "Tanımsız";
-                                string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
                                 try
                                 {
                                     ürünadı = MASTER_DEF[0].Split('|')[j];
+
+                                    //-----------------------------
+                                    XElement ünitler = new XElement("UNITS");
+
+
+                                    ünitler.Add(new XElement(new XElement("UNIT", new XElement("UNIT_CODE", "ADET"),
+                                             new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
+                                             new XElement("USEF_PURCHCLAS", 1),//ürün adı
+                                             new XElement("USEF_SALESCLAS", 1),
+                                             new XElement("CONV_FACT1", 1),
+                                             new XElement("CONV_FACT2", 1)))
+                                             );
+
+
+                                    XDocument doc1 = new XDocument(
+                                   new XElement("ITEMS",
+                                   new XElement("ITEM",
+                                         new XElement("CARD_TYPE", 1),
+                                         new XElement("CODE", SKUasMasterCode[j]),
+                                         new XElement("NAME", ürünadı),
+                                         new XElement("USEF_PURCHASING", 1),
+                                         new XElement("USEF_SALES", 1),
+                                         new XElement("USEF_MM", 1),
+                                         new XElement("VAT", vatRate[j]),
+                                         new XElement("AUTOINCSL", 1),
+                                         new XElement("LOTS_DIVISIBLE", 1),
+                                         new XElement("UNITSET_CODE", "ADET"),
+                                        ünitler,
+                                       new XElement("MULTI_ADD_TAX", 0),
+                                       new XElement("PACKET", 11),
+                                       new XElement("SELVAT", vatRate[j]),
+                                       new XElement("RETURNVAT", vatRate[j]),
+                                       new XElement("SELPRVAT", vatRate[j]),
+                                        new XElement("RETURNPRVAT", vatRate[j])
+                                    )
+
+                                   )
+                           );
+                                    doc1.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                                    System.IO.Directory.CreateDirectory(savingPath + "\\Materials");
+
+                                    doc1.Save(savingPath + "\\Materials\\" + SKUasMasterCode[j] + ".xml");
+
                                 }
                                 catch (Exception)
                                 {
@@ -306,9 +350,9 @@ namespace DatabaseToXml
 
                                 a[j].Add(new XElement("TYPE", "0"),
                                      new XElement("MASTER_CODE", SKUasMasterCode[j]),//kırtasiyedeki logodaki ürün kodu
-                                     new XElement("MASTER_DEF", ürünadı),//ürün adı
+                                    // new XElement("MASTER_DEF", ürünadı),//ürün adı
                                      new XElement("QUANTITY", quantity[j]),
-                                     new XElement("PRICE", unitPrice[j]),
+                                     new XElement("PRICE", unitPrice[j].Replace(',','.')),
                                      //new XElement("TOTAL", Totalamount[j]),
                                      new XElement("VAT_RATE", vatRate[j]),
                                      new XElement("UNIT_CODE", "ADET"),//adet
@@ -323,6 +367,11 @@ namespace DatabaseToXml
                                      new XElement("RESERVE_DATE", RESERVE_DATE[j].Split(' ')[0]),
                                      new XElement("RESERVE_AMOUNT", 1)
                                      );
+
+
+
+
+
                             }
 
                             XElement transactions = new XElement("TRANSACTIONS");
@@ -336,7 +385,7 @@ namespace DatabaseToXml
                            new XElement("ORDER_SLIP",
                                  // new XElement("NUMBER", NUMBER[i]),
                                  new XElement("DOC_TRACK_NR", DOC_TRACK_NR[i]),//@AYNI1
-                                 new XElement("DATE", DATE[i].Split(' ')[0]),
+                                 new XElement("DATE", DateTime.Parse(DATE[i].Split(' ')[0])),
                                  new XElement("TIME", DATE[i].Split(' ')[1]),
                                  new XElement("DOC_NUMBER", DOC_NUMBER[i]),
                                  new XElement("AUXIL_CODE", "HB Öder"),
@@ -359,8 +408,10 @@ namespace DatabaseToXml
                    //salesorderın altı
                    );
                             doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                            System.IO.Directory.CreateDirectory(savingPath +"\\SatışSipariş");
+                            doc.Save(savingPath + "\\SatışSipariş\\" + NOTES1[i] + ".xml");
 
-                            doc.Save(savingPath + "\\" + NOTES1[i] + ".xml");
+                            
 
                         }
                     }
@@ -380,110 +431,68 @@ namespace DatabaseToXml
                 sem.Wait();
                 try
                 {
-                    string[] orderNumbers = stringArrayDoldur("SELECT Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis]");
-                    for (int k = 0; k < orderNumbers.Length; k++)
-                    {//eşi olmayan veri sayısı 56
-                        string sorgu = "SELECT  Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k];
-                        //her orderın içindeki veriler
-                        string[] NUMBER = stringArrayDoldur(sorgu);
-                        for (int i = 0; i < NUMBER.Length; i++)//numberLength genelde 1 olur
-                        {
-                            #region AllNeededVaribles
-                            string[] NUMBER1 = stringArrayDoldur(sorgu);
-                            string[] DOC_TRACK_NR = stringArrayDoldur(sorgu);
-                            string[] DATE = stringArrayDoldur("SELECT  items_orderDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] TIME = stringArrayDoldur(sorgu);
-                            string[] DOC_NUMBER = stringArrayDoldur(sorgu);
-                            string[] AUXIL_CODE = stringArrayDoldur(sorgu);
-                            string[] ARP_CODE = stringArrayDoldur(sorgu);
-                            string[] RC_RATE = stringArrayDoldur(sorgu);
-                            string[] NOTES1 = stringArrayDoldur("SELECT items_invoice_address_name FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] NOTES2 = stringArrayDoldur("SELECT items_invoice_address_district FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] NOTES3 = stringArrayDoldur("SELECT items_invoice_address_town FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] NOTES5 = stringArrayDoldur("SELECT items_invoice_address_city FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] ORDER_STATUS = stringArrayDoldur(sorgu);
-                            string[] CREATED_BY = stringArrayDoldur(sorgu);
-                            string[] DATE_CREATED = stringArrayDoldur(sorgu);
-                            string[] HOUR_CREATED = stringArrayDoldur(sorgu);
-                            string[] MIN_CREATED = stringArrayDoldur(sorgu);
-                            string[] SEC_CREATED = stringArrayDoldur(sorgu);
-                            string[] MODIFIED_BY = stringArrayDoldur(sorgu);
-                            string[] CURRSEL_TOTAL = stringArrayDoldur(sorgu);
-                            string[] TYPE = stringArrayDoldur(sorgu);
-                            string[] MASTER_CODE = stringArrayDoldur(sorgu);
-                            string[] QUANTITY = stringArrayDoldur(sorgu);
-                            string[] PRICE = stringArrayDoldur(sorgu);
-                            string[] TOTAL = stringArrayDoldur(sorgu);
-                            string[] VAT_RATE = stringArrayDoldur(sorgu);
-                            string[] UNIT_CODE = stringArrayDoldur(sorgu);
-                            string[] UNIT_CONV2 = stringArrayDoldur(sorgu);
-                            string[] ORDER_RESERVE = stringArrayDoldur(sorgu);
-                            string[] DUE_DATE = stringArrayDoldur(sorgu);
-                            string[] CURR_PRICE = stringArrayDoldur(sorgu);
-                            string[] PC_PRICE = stringArrayDoldur(sorgu);
-                            string[] RC_XRATE = stringArrayDoldur(sorgu);
-                            string[] TOTAL_NET = stringArrayDoldur(sorgu);
-                            string[] RESERVE_AMOUNT = stringArrayDoldur(sorgu);
-                            string[] CUST_ORD_NO = stringArrayDoldur(sorgu);
-                            string[] DOC_TRACKING_NR = stringArrayDoldur(sorgu);
+                    string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] ");
+                
+                    string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] ");
 
 
-                            string[] Totalamount = stringArrayDoldur("SELECT  items_totalPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] unitPrice = stringArrayDoldur("SELECT  items_unitPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] quantity = stringArrayDoldur("SELECT  items_quantity FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] dueDate = stringArrayDoldur("SELECT  items_dueDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
-                            string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k] + "order by items_orderNumber asc");
+                    
+                    
+                    
+                    string[] ürünadı;
+                    string[] SKU;
+                    for (int i = 0; i < MASTER_DEF.Length; i++)
+                    {
+                        ürünadı = MASTER_DEF[i].Split('|');
+                        SKU = SKUasMasterCode[i].Split('|');
+                        string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_sku= '"+SKU[0]+"'");
+                                            //her orderın içindeki çoklu olabilen değer
+                                            XElement ünitler = new XElement("UNITS");
 
 
-                            #endregion
+                                            ünitler.Add(new XElement(new XElement("UNIT", new XElement("UNIT_CODE", "ADET"),
+                                                     new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
+                                                     new XElement("USEF_PURCHCLAS", 1),//ürün adı
+                                                     new XElement("USEF_SALESCLAS", 1),
+                                                     new XElement("CONV_FACT1", 1),
+                                                     new XElement("CONV_FACT2", 1)))
+                                                     );
 
-                            //her orderın içindeki çoklu olabilen değer
-                            XElement ünitler = new XElement("UNITS");
-                            ünitler = new XElement("UNIT");//UNTİ ALTA EKLE
 
-                            ünitler.Add(new XElement("UNIT_CODE", "ADET"),
-                                     new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
-                                     new XElement("USEF_PURCHCLAS", 1),//ürün adı
-                                     new XElement("USEF_SALESCLAS", 1),
-                                     new XElement("CONV_FACT1", 1),
-                                     new XElement("CONV_FACT2", 1)
-                                     );
-                            
+                                            XDocument doc = new XDocument(
+                                           new XElement("ITEMS",
+                                           new XElement("ITEM",
+                                                 new XElement("CARD_TYPE", 1),
+                                                 new XElement("CODE", SKU[0]),
+                                                 new XElement("NAME", ürünadı[0]),
+                                                 new XElement("USEF_PURCHASING", 1),
+                                                 new XElement("USEF_SALES", 1),
+                                                 new XElement("USEF_MM", 1),
+                                                 new XElement("VAT", vatRate[0]),
+                                                 new XElement("AUTOINCSL", 1),
+                                                 new XElement("LOTS_DIVISIBLE", 1),
+                                                 new XElement("UNITSET_CODE", "ADET"),
+                                                ünitler,
+                                               new XElement("MULTI_ADD_TAX", 0),
+                                               new XElement("PACKET", 11),
+                                               new XElement("SELVAT", vatRate[0]),
+                                               new XElement("RETURNVAT", vatRate[0]),
+                                               new XElement("SELPRVAT", vatRate[0]),
+                                                       new XElement("RETURNPRVAT", vatRate[0])
+                                            )
 
-                            XDocument doc = new XDocument(
-                           new XElement("ITEMS",
-                           new XElement("ITEM",
-                                 new XElement("CARD_TYPE", 1),
-                                 new XElement("CODE", ""),
-                                 new XElement("NAME", ""),
-                                 new XElement("USEF_PURCHASING", 1),
-                                 new XElement("USEF_SALES", 1),
-                                 new XElement("USEF_MM", 1),
-                                 new XElement("VAT", ""),
-                                 new XElement("AUTOINCSL",1),
-                                 new XElement("LOTS_DIVISIBLE", 1),
-                                 new XElement("UNITSET_CODE", "ADET"),
-                                ünitler,
-                               new XElement("MULTI_ADD_TAX", 0),
-                               new XElement("PACKET", 11),
-                               new XElement("SELVAT", ""),
-                               new XElement("RETURNVAT", ""),
-                               new XElement("SELPRVAT", ""),
-                                       new XElement("RETURNPRVAT", "")
-                            )
+                                           )
+                                   );
+                                            doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
 
-                           )
-                   );
-                            doc.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                                            doc.Save(savingPath + "\\" + ürünadı + ".xml");
 
-                            doc.Save(savingPath + "\\" + NOTES1[i] + ".xml");
 
-                        }
+
+                                            
+
                     }
                 }
-
                 finally
                 {
 
