@@ -37,19 +37,19 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(42, 129);
+            this.button1.Location = new System.Drawing.Point(199, 129);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 23);
+            this.button1.Size = new System.Drawing.Size(301, 219);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Satış Siparişlerini Kaydet";
+            this.button1.Text = "Satış Siparişlerini, Cari Hesapları ve Malzemeleri Kaydet";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.KaydetBasla_Clk);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(167, 44);
+            this.button2.Location = new System.Drawing.Point(199, 36);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(297, 23);
+            this.button2.Size = new System.Drawing.Size(301, 43);
             this.button2.TabIndex = 1;
             this.button2.Text = "Kaydedilecek Yeri Seciniz";
             this.button2.UseVisualStyleBackColor = true;
@@ -57,7 +57,7 @@
             // 
             // CariKaydetBTN
             // 
-            this.CariKaydetBTN.Location = new System.Drawing.Point(389, 129);
+            this.CariKaydetBTN.Location = new System.Drawing.Point(257, 228);
             this.CariKaydetBTN.Name = "CariKaydetBTN";
             this.CariKaydetBTN.Size = new System.Drawing.Size(207, 23);
             this.CariKaydetBTN.TabIndex = 2;
@@ -68,7 +68,7 @@
             // SirketSahıs
             // 
             this.SirketSahıs.AutoSize = true;
-            this.SirketSahıs.Location = new System.Drawing.Point(389, 94);
+            this.SirketSahıs.Location = new System.Drawing.Point(268, 279);
             this.SirketSahıs.Name = "SirketSahıs";
             this.SirketSahıs.Size = new System.Drawing.Size(187, 20);
             this.SirketSahıs.TabIndex = 3;
@@ -77,7 +77,7 @@
             // 
             // UrunKaydet
             // 
-            this.UrunKaydet.Location = new System.Drawing.Point(284, 240);
+            this.UrunKaydet.Location = new System.Drawing.Point(290, 187);
             this.UrunKaydet.Name = "UrunKaydet";
             this.UrunKaydet.Size = new System.Drawing.Size(75, 23);
             this.UrunKaydet.TabIndex = 4;
@@ -90,11 +90,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.UrunKaydet);
             this.Controls.Add(this.SirketSahıs);
             this.Controls.Add(this.CariKaydetBTN);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
