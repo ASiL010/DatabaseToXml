@@ -31,13 +31,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.CariKaydetBTN = new System.Windows.Forms.Button();
-            this.SirketSahıs = new System.Windows.Forms.CheckBox();
+            this.CombineALL = new System.Windows.Forms.CheckBox();
             this.UrunKaydet = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(199, 129);
+            this.button1.Location = new System.Drawing.Point(199, 130);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(301, 219);
             this.button1.TabIndex = 0;
@@ -65,15 +65,15 @@
             this.CariKaydetBTN.UseVisualStyleBackColor = true;
             this.CariKaydetBTN.Click += new System.EventHandler(this.CariKaydetBTN_Clk);
             // 
-            // SirketSahıs
+            // CombineALL
             // 
-            this.SirketSahıs.AutoSize = true;
-            this.SirketSahıs.Location = new System.Drawing.Point(268, 279);
-            this.SirketSahıs.Name = "SirketSahıs";
-            this.SirketSahıs.Size = new System.Drawing.Size(187, 20);
-            this.SirketSahıs.TabIndex = 3;
-            this.SirketSahıs.Text = "Şahıs Şirketleri için Seçiniz";
-            this.SirketSahıs.UseVisualStyleBackColor = true;
+            this.CombineALL.AutoSize = true;
+            this.CombineALL.Location = new System.Drawing.Point(533, 203);
+            this.CombineALL.Name = "CombineALL";
+            this.CombineALL.Size = new System.Drawing.Size(194, 20);
+            this.CombineALL.TabIndex = 3;
+            this.CombineALL.Text = "Seçiliyken her şeyi birleştirir";
+            this.CombineALL.UseVisualStyleBackColor = true;
             // 
             // UrunKaydet
             // 
@@ -92,7 +92,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.UrunKaydet);
-            this.Controls.Add(this.SirketSahıs);
+            this.Controls.Add(this.CombineALL);
             this.Controls.Add(this.CariKaydetBTN);
             this.Controls.Add(this.button2);
             this.Name = "Form1";
@@ -108,7 +108,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button CariKaydetBTN;
-        private System.Windows.Forms.CheckBox SirketSahıs;
+        private System.Windows.Forms.CheckBox CombineALL;
         private System.Windows.Forms.Button UrunKaydet;
     }
 }
