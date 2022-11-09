@@ -33,6 +33,7 @@
             this.CariKaydetBTN = new System.Windows.Forms.Button();
             this.CombineALL = new System.Windows.Forms.CheckBox();
             this.UrunKaydet = new System.Windows.Forms.Button();
+            this.author = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // button1
@@ -85,18 +86,30 @@
             this.UrunKaydet.UseVisualStyleBackColor = true;
             this.UrunKaydet.Click += new System.EventHandler(this.UrunKaydet_Clk);
             // 
+            // author
+            // 
+            this.author.AutoSize = true;
+            this.author.Location = new System.Drawing.Point(13, 432);
+            this.author.Name = "author";
+            this.author.Size = new System.Drawing.Size(85, 16);
+            this.author.TabIndex = 5;
+            this.author.TabStop = true;
+            this.author.Text = "Made by Asil";
+            this.author.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.author_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.author);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.UrunKaydet);
             this.Controls.Add(this.CombineALL);
             this.Controls.Add(this.CariKaydetBTN);
             this.Controls.Add(this.button2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Database exports to Xml";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -110,6 +123,7 @@
         private System.Windows.Forms.Button CariKaydetBTN;
         private System.Windows.Forms.CheckBox CombineALL;
         private System.Windows.Forms.Button UrunKaydet;
+        private System.Windows.Forms.LinkLabel author;
     }
 }
 

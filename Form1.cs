@@ -226,7 +226,20 @@ namespace DatabaseToXml
             return ReturnValue;
         }
 
+        public long SaatFonksiyonu(string HH,string MM,string SS)
+        {
+            int a = Convert.ToInt32(HH) * 65536 * 256;
+            int b = Convert.ToInt32(MM) * 65536;
+            int c = Convert.ToInt32(SS) * 256;
+            string rtrn = (a + b + c).ToString();
+            return long.Parse(rtrn);
+        }
 
+        private void author_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ASiL010");
+            author.LinkVisited = true;
+        }
 
         private void SatıŞSiparisiKaydetBaslaTread()
         {
@@ -790,15 +803,17 @@ namespace DatabaseToXml
                                 #region SatişSiparişi_DOC
 
 
+                                string[] saatDizisi = DATE[i].Split(' ')[1].Split(':');
                                 XElement transactions = new XElement("TRANSACTIONS");
                                 transactions.Add(a);
+
                                 XDocument SatışlarDocument = new XDocument(
                                     new XElement("SALES_ORDERS",
                                       new XElement("ORDER_SLIP",
                                      // new XElement("NUMBER", NUMBER[i]),
                                      new XElement("DOC_TRACK_NR", DOC_TRACK_NR[i]),//@AYNI1
                                      new XElement("DATE", DATEFİX),
-                                     new XElement("TIME", DATE[i].Split(' ')[1]),
+                                     new XElement("TIME", SaatFonksiyonu(saatDizisi[0], saatDizisi[1], saatDizisi[2])),
                                      new XElement("DOC_NUMBER", DOC_NUMBER[i]),
                                      new XElement("AUXIL_CODE", "HB Öder"),
                                      new XElement("ARP_CODE", CODE),
@@ -821,7 +836,7 @@ namespace DatabaseToXml
                        );
                                 SatışlarDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                 System.IO.Directory.CreateDirectory(savingPath + "\\SatışSipariş");
-                                SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + NOTES1[i] + ".xml");
+                                SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + DOC_TRACK_NR[i] + ".xml");
 
 
                                 #endregion
