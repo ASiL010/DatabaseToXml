@@ -37,6 +37,7 @@
             // 
             // KaydetBasla
             // 
+            this.KaydetBasla.Enabled = false;
             this.KaydetBasla.Location = new System.Drawing.Point(199, 133);
             this.KaydetBasla.Name = "KaydetBasla";
             this.KaydetBasla.Size = new System.Drawing.Size(301, 219);
@@ -78,6 +79,7 @@
             // 
             // XmlMergeButton
             // 
+            this.XmlMergeButton.Enabled = false;
             this.XmlMergeButton.Location = new System.Drawing.Point(579, 36);
             this.XmlMergeButton.Name = "XmlMergeButton";
             this.XmlMergeButton.Size = new System.Drawing.Size(182, 43);
