@@ -58,7 +58,7 @@
             // CombineALL
             // 
             this.CombineALL.AutoSize = true;
-            this.CombineALL.Location = new System.Drawing.Point(533, 203);
+            this.CombineALL.Location = new System.Drawing.Point(255, 283);
             this.CombineALL.Name = "CombineALL";
             this.CombineALL.Size = new System.Drawing.Size(194, 20);
             this.CombineALL.TabIndex = 3;
