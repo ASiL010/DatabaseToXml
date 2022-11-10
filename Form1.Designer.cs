@@ -30,15 +30,13 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.CariKaydetBTN = new System.Windows.Forms.Button();
             this.CombineALL = new System.Windows.Forms.CheckBox();
-            this.UrunKaydet = new System.Windows.Forms.Button();
             this.author = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(199, 130);
+            this.button1.Location = new System.Drawing.Point(199, 133);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(301, 219);
             this.button1.TabIndex = 0;
@@ -56,16 +54,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.KaydetmeYeri_Clk);
             // 
-            // CariKaydetBTN
-            // 
-            this.CariKaydetBTN.Location = new System.Drawing.Point(257, 228);
-            this.CariKaydetBTN.Name = "CariKaydetBTN";
-            this.CariKaydetBTN.Size = new System.Drawing.Size(207, 23);
-            this.CariKaydetBTN.TabIndex = 2;
-            this.CariKaydetBTN.Text = "Cari Hesapları Kaydet";
-            this.CariKaydetBTN.UseVisualStyleBackColor = true;
-            this.CariKaydetBTN.Click += new System.EventHandler(this.CariKaydetBTN_Clk);
-            // 
             // CombineALL
             // 
             this.CombineALL.AutoSize = true;
@@ -75,16 +63,6 @@
             this.CombineALL.TabIndex = 3;
             this.CombineALL.Text = "Seçiliyken her şeyi birleştirir";
             this.CombineALL.UseVisualStyleBackColor = true;
-            // 
-            // UrunKaydet
-            // 
-            this.UrunKaydet.Location = new System.Drawing.Point(290, 187);
-            this.UrunKaydet.Name = "UrunKaydet";
-            this.UrunKaydet.Size = new System.Drawing.Size(75, 23);
-            this.UrunKaydet.TabIndex = 4;
-            this.UrunKaydet.Text = "UrunKaydet";
-            this.UrunKaydet.UseVisualStyleBackColor = true;
-            this.UrunKaydet.Click += new System.EventHandler(this.UrunKaydet_Clk);
             // 
             // author
             // 
@@ -104,9 +82,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.author);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.UrunKaydet);
             this.Controls.Add(this.CombineALL);
-            this.Controls.Add(this.CariKaydetBTN);
             this.Controls.Add(this.button2);
             this.Name = "Form1";
             this.Text = "Database exports to Xml";
@@ -120,9 +96,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button CariKaydetBTN;
         private System.Windows.Forms.CheckBox CombineALL;
-        private System.Windows.Forms.Button UrunKaydet;
         private System.Windows.Forms.LinkLabel author;
     }
 }
