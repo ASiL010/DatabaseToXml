@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace DatabaseToXml
@@ -352,14 +353,33 @@ namespace DatabaseToXml
                                               new XElement("CODE", CODE[z]),
                                               new XElement("TITLE", TITLE[z]),
                                               new XElement("ADDRESS1", ADDRESS1[z]),
+                                              new XElement("DISTRICT").Value = DISTRICT[z],
                                               new XElement("TOWN_CODE", "TR"),
                                               new XElement("TOWN", TOWN[z]),
                                               new XElement("CITY_CODE", "TR"),
                                               new XElement("CITY", CITY[z]),
                                               new XElement("COUNTRY_CODE", "TR"),
                                               new XElement("COUNTRY", "TÜRKİYE"),
+                                              //postaKodu
                                                new XElement("E_MAIL", E_MAILFatura[i]),
-                                              new XElement("PERSCOMPANY", 1),
+                                               new XElement("CORRESP_LANG").Value = "1",
+                                             new XElement("CREDIT_TYPE").Value = "1",
+new XElement("RISKFACT_CHQ").Value ="1",
+new XElement("RISKFACT_PROMNT").Value = "1",
+new XElement("AUTO_PAID_BANK").Value = "0",
+new XElement("CL_ORD_FREQ").Value = "1",
+new XElement("LOGOID").Value = "0",
+new XElement("CELL_PHONE").Value = "0",
+new XElement("INVOICE_PRNT_CNT").Value = "1",
+new XElement("PURCHBRWS").Value = "1",
+new XElement("SALESBRWS").Value = "1",
+new XElement("IMPBRWS").Value = "1",
+new XElement("EXPBRWS").Value = "1",
+new XElement("FINBRWS").Value = "1",
+new XElement("COLLATRLRISK_TYPE").Value = "1",
+new XElement("PERSCOMPANY").Value = "1",
+new XElement("EARCHIVE_SEND_MODE").Value = "1",
+new XElement("INSTEAD_OF_DISPATCH").Value = "1",
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
@@ -389,24 +409,31 @@ namespace DatabaseToXml
                                     {
                                         Cariler.Add(
                                           new XElement("AR_AP",
-                                             new XElement("ACCOUNT_TYPE", 3),
-                                             new XElement("CODE", CODE[z]),
-                                             new XElement("TITLE", TITLE[z]),
-                                             new XElement("ADDRESS1", ADDRESS1[z]),
-                                             new XElement("TOWN_CODE", "TR"),
-                                             new XElement("DISTRICT", DISTRICT[z]),
-                                             new XElement("TOWN", TOWN[z]),
-                                             new XElement("CITY_CODE", "TR"),
-                                             new XElement("CITY", CITY[z]),
-                                             new XElement("COUNTRY_CODE", "TR"),
-                                             new XElement("COUNTRY", "TÜRKİYE"),
-                                             new XElement("TAX_ID", TAX_ID[z]),
-                                             new XElement("TAX_OFFICE", TAX_OFFICE[z]),
-                                             new XElement("E_MAIL", E_MAILFatura[z]),
-                                             new XElement("EARCHIVE_SEND_MODE", 1),
-                                             new XElement("PROFILE_ID", 2),
-                                             new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
-                                             new XElement("CONTACT2", NAME[z].Split(' ').Last())
+                                            new XElement("ACCOUNT_TYPE").Value = "3",
+                                                 new XElement("CODE", CODE[z]),
+                                                 new XElement("TITLE", TITLE[z]),
+                                                 new XElement("ADDRESS1", ADDRESS1[z]),
+                                                 new XElement("TOWN_CODE", "TR"),
+                                                 new XElement("DISTRICT", DISTRICT[z]),
+                                                 new XElement("TOWN", TOWN[z]),
+                                                 new XElement("CITY_CODE", "TR"),
+                                                 new XElement("CITY", CITY[z]),
+                                                 new XElement("COUNTRY_CODE", "TR"),
+                                                 new XElement("COUNTRY", "TÜRKİYE"),
+                                                 //postakodu
+                                                 new XElement("TAX_ID", TAX_ID[z]),
+                                                 new XElement("TAX_OFFICE", TAX_OFFICE[z]),
+                                                 new XElement("CORRESP_LANG", 1),
+                                                 new XElement("AUTO_PAID_BANK", 0),
+                                                 new XElement("CL_ORD_FREQ", 1),
+                                                 new XElement("LOGOID").Value = "0",
+                                                 new XElement("E_MAIL", E_MAILFatura[z]),
+                                                 new XElement("EARCHIVE_SEND_MODE", 1),
+                                                 new XElement("PROFILE_ID", 2),
+                                                 new XElement("EARCHIVE_SEND_MODE").Value = "1",
+                                                 new XElement("INSTEAD_OF_DISPATCH").Value = "1",
+                                                 new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
+                                                 new XElement("CONTACT2", NAME[z].Split(' ').Last())
                                        //[NAME[z].Split(' ').Length - 1]
                                        //,
                                        //     new XElement("POST_LABEL", POST_LABEL[z]),
@@ -642,29 +669,49 @@ namespace DatabaseToXml
                                         XDocument CarilerDocument = new XDocument(
                                             new XElement("AR_APS",
                                             new XElement("AR_AP",
-                                              new XElement("ACCOUNT_TYPE", 3),
+                                                 new XElement("ACCOUNT_TYPE", 3),
                                               new XElement("CODE", CODE[z]),
                                               new XElement("TITLE", TITLE[z]),
                                               new XElement("ADDRESS1", ADDRESS1[z]),
+                                              new XElement("DISTRICT").Value = DISTRICT[z],
                                               new XElement("TOWN_CODE", "TR"),
                                               new XElement("TOWN", TOWN[z]),
                                               new XElement("CITY_CODE", "TR"),
                                               new XElement("CITY", CITY[z]),
                                               new XElement("COUNTRY_CODE", "TR"),
                                               new XElement("COUNTRY", "TÜRKİYE"),
+                                               //postaKodu
                                                new XElement("E_MAIL", E_MAILFatura[i]),
-                                              new XElement("PERSCOMPANY", 1),
+                                               new XElement("CORRESP_LANG").Value = "1",
+                                             new XElement("CREDIT_TYPE").Value = "1",
+new XElement("RISKFACT_CHQ").Value = "1",
+new XElement("RISKFACT_PROMNT").Value = "1",
+new XElement("AUTO_PAID_BANK").Value = "0",
+new XElement("CL_ORD_FREQ").Value = "1",
+new XElement("LOGOID").Value = "0",
+new XElement("CELL_PHONE").Value = "0",
+new XElement("INVOICE_PRNT_CNT").Value = "1",
+new XElement("PURCHBRWS").Value = "1",
+new XElement("SALESBRWS").Value = "1",
+new XElement("IMPBRWS").Value = "1",
+new XElement("EXPBRWS").Value = "1",
+new XElement("FINBRWS").Value = "1",
+new XElement("COLLATRLRISK_TYPE").Value = "1",
+new XElement("PERSCOMPANY").Value = "1",
+new XElement("EARCHIVE_SEND_MODE").Value = "1",
+new XElement("INSTEAD_OF_DISPATCH").Value = "1",
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
+                                               new XElement("ACCEPT_EINV", 1),
                                               new XElement("NAME", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                               new XElement("SURNAME", NAME[z].Split(' ').Last())
                                         //,
                                         //   new XElement("SURNAME", SURNAME[z])
 
                                         )//AR_AP end 
-                                        ) //AR_APSSSS end
-                                        );//documant end
+                                         //AR_APSSSS end
+                                        ));//documant end
 
                                         CarilerDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                         System.IO.Directory.CreateDirectory(savingPath + "\\Cariler");
@@ -673,7 +720,7 @@ namespace DatabaseToXml
                                 }
                                 else
                                 {
-                                    //ŞİRKET HESAPLARI BURAYA 
+                                    //ŞİRKET Firma HESAPLARI BURAYA 
 
 
 
@@ -682,7 +729,7 @@ namespace DatabaseToXml
                                         XDocument CarilerDocument = new XDocument(
                                            new XElement("AR_APS",
                                              new XElement("AR_AP",
-                                                 new XElement("ACCOUNT_TYPE", 3),
+                                                 new XElement("ACCOUNT_TYPE").Value="3",
                                                  new XElement("CODE", CODE[z]),
                                                  new XElement("TITLE", TITLE[z]),
                                                  new XElement("ADDRESS1", ADDRESS1[z]),
@@ -693,11 +740,18 @@ namespace DatabaseToXml
                                                  new XElement("CITY", CITY[z]),
                                                  new XElement("COUNTRY_CODE", "TR"),
                                                  new XElement("COUNTRY", "TÜRKİYE"),
+                                                 //postakodu
                                                  new XElement("TAX_ID", TAX_ID[z]),
                                                  new XElement("TAX_OFFICE", TAX_OFFICE[z]),
+                                                 new XElement("CORRESP_LANG", 1),
+                                                 new XElement("AUTO_PAID_BANK", 0),
+                                                 new XElement("CL_ORD_FREQ", 1),
+                                                 new XElement("LOGOID").Value = "0",
                                                  new XElement("E_MAIL", E_MAILFatura[z]),
                                                  new XElement("EARCHIVE_SEND_MODE", 1),
                                                  new XElement("PROFILE_ID", 2),
+                                                 new XElement("EARCHIVE_SEND_MODE").Value = "1",
+                                                 new XElement("INSTEAD_OF_DISPATCH").Value = "1",
                                                  new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                                  new XElement("CONTACT2", NAME[z].Split(' ').Last())
                                            //[NAME[z].Split(' ').Length - 1]
