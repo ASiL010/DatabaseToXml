@@ -290,7 +290,7 @@ namespace DatabaseToXml
                                 string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + orderNumbers[k] + "order by siparisNo asc");
 
                                 #region dateFixes
-                                string duedateFİX = "";
+                                string duedateFİX = dueDate[i].Split(' ')[0];
                                 if (dueDate[i].Split(' ')[0].Length == 9)
                                 {
                                     duedateFİX = "0" + dueDate[i].Split(' ')[0];
@@ -363,6 +363,7 @@ namespace DatabaseToXml
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
+                                               new XElement("ACCEPT_EINV", 1),
                                               new XElement("NAME", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                               new XElement("SURNAME", NAME[z].Split(' ').Last())
                                         //,
