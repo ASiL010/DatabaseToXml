@@ -380,6 +380,8 @@ new XElement("COLLATRLRISK_TYPE", "1"),
 new XElement("PERSCOMPANY", "1"),
 new XElement("EARCHIVE_SEND_MODE", 1),
 new XElement("INSTEAD_OF_DISPATCH", 1),
+new XElement("INVOICE_PRNT_CNT", 1),
+
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
@@ -432,6 +434,8 @@ new XElement("INSTEAD_OF_DISPATCH", 1),
                                                  new XElement("PROFILE_ID", 2),
                                                  new XElement("EARCHIVE_SEND_MODE","1"),
                                                  new XElement("INSTEAD_OF_DISPATCH", "1"),
+                                                 new XElement("INVOICE_PRNT_CNT", 1),
+
                                                  new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                                  new XElement("CONTACT2", NAME[z].Split(' ').Last())
                                        //[NAME[z].Split(' ').Length - 1]
@@ -700,6 +704,7 @@ new XElement("COLLATRLRISK_TYPE", "1"),
 new XElement("PERSCOMPANY","1"),
 new XElement("EARCHIVE_SEND_MODE", 1),
 new XElement("INSTEAD_OF_DISPATCH",1),
+new XElement("INVOICE_PRNT_CNT", 1),
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
@@ -752,6 +757,7 @@ new XElement("INSTEAD_OF_DISPATCH",1),
                                                  new XElement("PROFILE_ID", 2),
                                                  new XElement("EARCHIVE_SEND_MODE","1"),
                                                  new XElement("INSTEAD_OF_DISPATCH","1"),
+                                                 new XElement("INVOICE_PRNT_CNT", 1),
                                                  new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
                                                  new XElement("CONTACT2", NAME[z].Split(' ').Last())
                                            //[NAME[z].Split(' ').Length - 1]
