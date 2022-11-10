@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DatabaseToXml
 {
@@ -26,7 +27,7 @@ namespace DatabaseToXml
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
         Thread SatışSipariş;
       public static string savingPath = Directory.GetCurrentDirectory();
-
+        string SeçilenSiparişNumarası=null;
         public Form1()
         {
             InitializeComponent();
@@ -56,9 +57,10 @@ namespace DatabaseToXml
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(Folder.SelectedPath))
             {
                 savingPath = Folder.SelectedPath;
+                KaydetBasla.Enabled = true;
+                XmlMergeButton.Enabled = true;
             }
-            KaydetBasla.Enabled = true;
-            XmlMergeButton.Enabled = true;
+          
         }
         public string[] stringArrayDoldur(string Sorgunuz)
         {
@@ -89,9 +91,40 @@ namespace DatabaseToXml
         private void XmlMerger_Clk(object sender, EventArgs e)
         {
             XmlMerger a=new XmlMerger();
-            a.MergeMyXmls();
+            string birleştirmeİsmi = null;
+            
+            if (CariRadio.Checked)
+            {
+                birleştirmeİsmi = " Cariler";
+            }
+            if (SatısRadio.Checked)
+            {
+                birleştirmeİsmi = " Satışlar";
+
+            }
+            if (MalzemeRadio.Checked)
+            {
+                birleştirmeİsmi = " Malzemeler";
+            }
+            a.MergeMyXmls(birleştirmeİsmi);
         }
 
+        private void OrderBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(SelectedOrderNumber.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Lütfen Sadece Sayı Girişi Yapınız.");
+                SelectedOrderNumber.Clear();
+                OrderBox.Checked = false;
+            }
+            else
+            {
+                if (OrderBox.Checked == false)                
+                {
+                    SeçilenSiparişNumarası = SelectedOrderNumber.Text;
+                }
+            }
+        }
         private void author_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ASiL010");
@@ -105,9 +138,11 @@ namespace DatabaseToXml
                 sem.Wait();
                 try
                 {
-                   
-                        string[] orderNumbers = stringArrayDoldur("SELECT Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis]");
-                        for (int k = 0; k < orderNumbers.Length; k++)
+                    string[] orderNumbers;
+                        if(SeçilenSiparişNumarası==null)
+                         orderNumbers = stringArrayDoldur("SELECT Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis]");
+                    else orderNumbers = stringArrayDoldur("SELECT  Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" +SeçilenSiparişNumarası);
+                    for (int k = 0; k < orderNumbers.Length; k++)
                         {//eşi olmayan veri sayısı 56
                             string sorgu = "SELECT  Distinct items_orderNumber  FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + orderNumbers[k];
                             //her orderın içindeki veriler
@@ -207,25 +242,25 @@ namespace DatabaseToXml
                                               new XElement("COUNTRY", "TÜRKİYE"),
                                                //postaKodu
                                                new XElement("E_MAIL", E_MAILFatura[i]),
-new XElement("CORRESP_LANG", "1"),
-new XElement("CREDIT_TYPE", "1"),
-new XElement("RISKFACT_CHQ", "1"),
-new XElement("RISKFACT_PROMNT", "1"),
-new XElement("AUTO_PAID_BANK", "0"),
-new XElement("CL_ORD_FREQ", "1"),
-new XElement("LOGOID", "0"),
-new XElement("CELL_PHONE", "0"),
-new XElement("INVOICE_PRNT_CNT", "1"),
-new XElement("PURCHBRWS", "1"),
-new XElement("SALESBRWS", "1"),
-new XElement("IMPBRWS", "1"),
-new XElement("EXPBRWS", "1"),
-new XElement("FINBRWS", "1"),
-new XElement("COLLATRLRISK_TYPE", "1"),
-new XElement("PERSCOMPANY","1"),
-new XElement("EARCHIVE_SEND_MODE", 1),
-new XElement("INSTEAD_OF_DISPATCH",1),
-new XElement("INVOICE_PRNT_CNT", 1),
+                                                new XElement("CORRESP_LANG", "1"),
+                                                new XElement("CREDIT_TYPE", "1"),
+                                                new XElement("RISKFACT_CHQ", "1"),
+                                                new XElement("RISKFACT_PROMNT", "1"),
+                                                new XElement("AUTO_PAID_BANK", "0"),
+                                                new XElement("CL_ORD_FREQ", "1"),
+                                                new XElement("LOGOID", "0"),
+                                                new XElement("CELL_PHONE", "0"),
+                                                new XElement("INVOICE_PRNT_CNT", "1"),
+                                                new XElement("PURCHBRWS", "1"),
+                                                new XElement("SALESBRWS", "1"),
+                                                new XElement("IMPBRWS", "1"),
+                                                new XElement("EXPBRWS", "1"),
+                                                new XElement("FINBRWS", "1"),
+                                                new XElement("COLLATRLRISK_TYPE", "1"),
+                                                new XElement("PERSCOMPANY","1"),
+                                                new XElement("EARCHIVE_SEND_MODE", 1),
+                                                new XElement("INSTEAD_OF_DISPATCH",1),
+                                                new XElement("INVOICE_PRNT_CNT", 1),
                                               new XElement("TCKNO", 11111111111),
                                               new XElement("EARCHIVE_SEND_MODE", 1),
                                               new XElement("PROFILE_ID", 2),
@@ -436,7 +471,6 @@ new XElement("INVOICE_PRNT_CNT", 1),
                 }
             }
         }
-
 
     }
 

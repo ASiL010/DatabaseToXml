@@ -25,7 +25,7 @@ namespace DatabaseToXml
             openFileDialog.Title = "Birleştirelecek Xml Dosyalarını Seçiniz";
         }
 
-        public  void MergeMyXmls()
+        public  void MergeMyXmls(string birleştirmeİsmi)
         {
             InitializeOpenFileDialog();
             DialogResult dr = openFileDialog.ShowDialog();
@@ -61,7 +61,7 @@ namespace DatabaseToXml
                     }
                 }
                 xmlDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                xmlDocument.Save(Form1.savingPath + "\\" + "Birleştirilenler" + ".xml");
+                xmlDocument.Save(Form1.savingPath + "\\" + "Birleştirilen"+ birleştirmeİsmi + ".xml");
             }
         }
     }
