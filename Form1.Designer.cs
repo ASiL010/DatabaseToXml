@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.KaydetBasla = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.CombineALL = new System.Windows.Forms.CheckBox();
             this.author = new System.Windows.Forms.LinkLabel();
+            this.XmlMergeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // KaydetBasla
             // 
-            this.button1.Location = new System.Drawing.Point(199, 133);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(301, 219);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Satış Siparişlerini, Cari Hesapları ve Malzemeleri Kaydet";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.KaydetBasla_Clk);
+            this.KaydetBasla.Location = new System.Drawing.Point(199, 133);
+            this.KaydetBasla.Name = "KaydetBasla";
+            this.KaydetBasla.Size = new System.Drawing.Size(301, 219);
+            this.KaydetBasla.TabIndex = 0;
+            this.KaydetBasla.Text = "Satış Siparişlerini, Cari Hesapları ve Malzemeleri Kaydet";
+            this.KaydetBasla.UseVisualStyleBackColor = true;
+            this.KaydetBasla.Click += new System.EventHandler(this.KaydetBasla_Clk);
             // 
             // button2
             // 
@@ -75,13 +76,24 @@
             this.author.Text = "Made by Asil";
             this.author.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.author_LinkClicked);
             // 
+            // XmlMergeButton
+            // 
+            this.XmlMergeButton.Location = new System.Drawing.Point(579, 36);
+            this.XmlMergeButton.Name = "XmlMergeButton";
+            this.XmlMergeButton.Size = new System.Drawing.Size(182, 43);
+            this.XmlMergeButton.TabIndex = 6;
+            this.XmlMergeButton.Text = "Birleştiriciyi Aç";
+            this.XmlMergeButton.UseVisualStyleBackColor = true;
+            this.XmlMergeButton.Click += new System.EventHandler(this.XmlMerger_Clk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.XmlMergeButton);
             this.Controls.Add(this.author);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.KaydetBasla);
             this.Controls.Add(this.CombineALL);
             this.Controls.Add(this.button2);
             this.Name = "Form1";
@@ -94,10 +106,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button KaydetBasla;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox CombineALL;
         private System.Windows.Forms.LinkLabel author;
+        private System.Windows.Forms.Button XmlMergeButton;
     }
 }
 

@@ -24,7 +24,9 @@ namespace DatabaseToXml
         private DataSet ds;
         #endregion
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
-        Thread SatışSipariş, CariHesap,ÜRÜNLER;
+        Thread SatışSipariş;
+      public static string savingPath = Directory.GetCurrentDirectory();
+
         public Form1()
         {
             InitializeComponent();
@@ -35,7 +37,6 @@ namespace DatabaseToXml
             SatışSipariş = new Thread(SatıŞSiparisiKaydetBaslaTread);
            
         }
-        string savingPath = Directory.GetCurrentDirectory();
         private void KaydetBasla_Clk(object sender, EventArgs e)
         {
 
@@ -56,7 +57,8 @@ namespace DatabaseToXml
             {
                 savingPath = Folder.SelectedPath;
             }
-
+            KaydetBasla.Enabled = true;
+            XmlMergeButton.Enabled = true;
         }
         public string[] stringArrayDoldur(string Sorgunuz)
         {
@@ -82,6 +84,12 @@ namespace DatabaseToXml
             int c = Convert.ToInt32(SS) * 256;
             string rtrn = (a + b + c).ToString();
             return long.Parse(rtrn);
+        }
+
+        private void XmlMerger_Clk(object sender, EventArgs e)
+        {
+            XmlMerger a=new XmlMerger();
+            a.MergeMyXmls();
         }
 
         private void author_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
