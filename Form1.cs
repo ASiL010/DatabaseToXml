@@ -668,7 +668,7 @@ namespace DatabaseToXml
 
                                         CarilerDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                         System.IO.Directory.CreateDirectory(savingPath + "\\Cariler");
-                                        CarilerDocument.Save(savingPath + "\\Cariler\\" + TITLE[z] + ".xml");
+                                        CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[z] + ".xml");
                                     }
                                 }
                                 else
