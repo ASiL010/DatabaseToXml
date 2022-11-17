@@ -40,6 +40,7 @@ namespace DatabaseToXml
                         {
                              xmlDocument = XDocument.Load(file);
                              element = xmlDocument.Elements().FirstOrDefault();
+
                             i++;
                         }
                         else
@@ -61,7 +62,27 @@ namespace DatabaseToXml
                     }
                 }
                 xmlDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                xmlDocument.Save(Form1.savingPath + "\\" + "Birleştirilen"+ birleştirmeİsmi + ".xml");
+                MessageBox.Show(element.Name.ToString());
+                if (element.Name.ToString()== "AR_APS")
+                {
+                    xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
+
+                }
+                else if(element.Name.ToString() == "SALES_ORDERS")
+                {
+                    xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Satışlar.xml");
+
+                }
+                else if (element.Name.ToString() == "ITEMS")
+                {
+                    xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Materyaller.xml");
+
+                }
+                else
+                {
+                    xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Tarihinde Birleştirildi.xml");
+
+                }
             }
         }
     }

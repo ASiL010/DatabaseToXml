@@ -32,11 +32,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.author = new System.Windows.Forms.LinkLabel();
             this.XmlMergeButton = new System.Windows.Forms.Button();
-            this.CariRadio = new System.Windows.Forms.RadioButton();
-            this.SatısRadio = new System.Windows.Forms.RadioButton();
-            this.MalzemeRadio = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.OrderBox = new System.Windows.Forms.CheckBox();
             this.SelectedOrderNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,7 +39,6 @@
             this.KüçükDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // KaydetBasla
@@ -82,67 +76,13 @@
             // XmlMergeButton
             // 
             this.XmlMergeButton.Enabled = false;
-            this.XmlMergeButton.Location = new System.Drawing.Point(579, 36);
+            this.XmlMergeButton.Location = new System.Drawing.Point(559, 36);
             this.XmlMergeButton.Name = "XmlMergeButton";
             this.XmlMergeButton.Size = new System.Drawing.Size(182, 43);
             this.XmlMergeButton.TabIndex = 6;
             this.XmlMergeButton.Text = "Birleştiriciyi Aç";
             this.XmlMergeButton.UseVisualStyleBackColor = true;
             this.XmlMergeButton.Click += new System.EventHandler(this.XmlMerger_Clk);
-            // 
-            // CariRadio
-            // 
-            this.CariRadio.AutoSize = true;
-            this.CariRadio.Location = new System.Drawing.Point(28, 18);
-            this.CariRadio.Name = "CariRadio";
-            this.CariRadio.Size = new System.Drawing.Size(99, 20);
-            this.CariRadio.TabIndex = 7;
-            this.CariRadio.TabStop = true;
-            this.CariRadio.Text = "Cari Kayıtlar";
-            this.CariRadio.UseVisualStyleBackColor = true;
-            // 
-            // SatısRadio
-            // 
-            this.SatısRadio.AutoSize = true;
-            this.SatısRadio.Location = new System.Drawing.Point(28, 44);
-            this.SatısRadio.Name = "SatısRadio";
-            this.SatısRadio.Size = new System.Drawing.Size(121, 20);
-            this.SatısRadio.TabIndex = 8;
-            this.SatısRadio.TabStop = true;
-            this.SatısRadio.Text = "Satış Siparişleri";
-            this.SatısRadio.UseVisualStyleBackColor = true;
-            // 
-            // MalzemeRadio
-            // 
-            this.MalzemeRadio.AutoSize = true;
-            this.MalzemeRadio.Location = new System.Drawing.Point(28, 70);
-            this.MalzemeRadio.Name = "MalzemeRadio";
-            this.MalzemeRadio.Size = new System.Drawing.Size(98, 20);
-            this.MalzemeRadio.TabIndex = 9;
-            this.MalzemeRadio.TabStop = true;
-            this.MalzemeRadio.Text = "Malzemeler";
-            this.MalzemeRadio.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.MalzemeRadio);
-            this.groupBox1.Controls.Add(this.CariRadio);
-            this.groupBox1.Controls.Add(this.SatısRadio);
-            this.groupBox1.Location = new System.Drawing.Point(545, 123);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(263, 103);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Birleştirme ismi Seçmek için kullanınız";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(635, 229);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(153, 16);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Not: Sadece ismi belirler";
             // 
             // OrderBox
             // 
@@ -217,8 +157,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.SelectedOrderNumber);
             this.Controls.Add(this.OrderBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.XmlMergeButton);
             this.Controls.Add(this.author);
             this.Controls.Add(this.KaydetBasla);
@@ -226,8 +164,6 @@
             this.Name = "Form1";
             this.Text = "Database exports to Xml";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,11 +175,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.LinkLabel author;
         private System.Windows.Forms.Button XmlMergeButton;
-        private System.Windows.Forms.RadioButton CariRadio;
-        private System.Windows.Forms.RadioButton SatısRadio;
-        private System.Windows.Forms.RadioButton MalzemeRadio;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox OrderBox;
         private System.Windows.Forms.TextBox SelectedOrderNumber;
         private System.Windows.Forms.Label label2;
