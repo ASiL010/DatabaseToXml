@@ -39,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.OrderBox = new System.Windows.Forms.CheckBox();
             this.SelectedOrderNumber = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,7 +149,6 @@
             this.OrderBox.TabIndex = 12;
             this.OrderBox.Text = "Sipariş numarası yazılıyken seçiniz";
             this.OrderBox.UseVisualStyleBackColor = true;
-            this.OrderBox.CheckedChanged += new System.EventHandler(this.OrderBox_CheckedChanged);
             // 
             // SelectedOrderNumber
             // 
@@ -156,13 +156,23 @@
             this.SelectedOrderNumber.Name = "SelectedOrderNumber";
             this.SelectedOrderNumber.Size = new System.Drawing.Size(235, 22);
             this.SelectedOrderNumber.TabIndex = 13;
-            this.SelectedOrderNumber.Text = "Seçilen Sipariş Numarası";
+            this.SelectedOrderNumber.TextChanged += new System.EventHandler(this.SelectedOrderNumber_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(158, 16);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Seçilen Sipariş Numarası";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.SelectedOrderNumber);
             this.Controls.Add(this.OrderBox);
             this.Controls.Add(this.label1);
@@ -194,6 +204,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox OrderBox;
         private System.Windows.Forms.TextBox SelectedOrderNumber;
+        private System.Windows.Forms.Label label2;
     }
 }
 
