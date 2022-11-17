@@ -186,14 +186,14 @@ namespace DatabaseToXml
                     db_gulSistemEntities gulsistem = new db_gulSistemEntities();
                     var siparis = gulsistem.tbl_siparis;
 
-                    var query = new string[]{ ",",""}.ToList();
-                    XDocument CariCombined=new XDocument(new XElement("AR_APS"));
-                    XDocument SatısCombined=new XDocument(new XElement("SALES_ORDERS"));
-                    XDocument MaterialCombined=new XDocument(new XElement("ITEMS"));
+                    var query = new string[] { ",", "" }.ToList();
+                    XDocument CariCombined = new XDocument(new XElement("AR_APS"));
+                    XDocument SatısCombined = new XDocument(new XElement("SALES_ORDERS"));
+                    XDocument MaterialCombined = new XDocument(new XElement("ITEMS"));
 
 
-                    string[] orderNumbers=new string[0];
-                        if(OrderBox.Checked==true)
+                    string[] orderNumbers = new string[0];
+                    if (OrderBox.Checked == true)
                         query = siparis.Select(b => b.items_orderNumber).Where(c => c == SeçilenSiparişNumarası).Distinct().ToList();
                     else
                         query = siparis.Select(b => b.items_orderNumber).Distinct().ToList();
@@ -209,7 +209,7 @@ namespace DatabaseToXml
                             #region Cari Hesaplar
 
                             #region AllNeededVaribles
-                            
+
                             string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
                             string[] TITLE = stringArrayDoldur("Select [Mad] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
 
@@ -226,6 +226,13 @@ namespace DatabaseToXml
 
                             if (V.items_invoice_taxNumber == "")
                             {
+
+
+
+                                for (int z = 0; z < CODE.Length; z++)//verinin olup olmadığını da kontrol ediyor
+                                {
+
+
                                     XDocument CarilerDocument = new XDocument(
                                         new XElement("AR_APS",
                                         new XElement("AR_AP",
@@ -279,12 +286,14 @@ namespace DatabaseToXml
                                     CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[0] + ".xml");
 
                                     CombineDocuments(CariCombined, CarilerDocument);
-                                
+                                }
                             }
                             else
                             {
                                 //ŞİRKET Firma HESAPLARI BURAYA 
 
+                                for (int z = 0; z < CODE.Length; z++)//verinin olup olmadığını da kontrol ediyor
+                                {
                                     XDocument CarilerDocument = new XDocument(
                                        new XElement("AR_APS",
                                          new XElement("AR_AP",
@@ -326,10 +335,10 @@ namespace DatabaseToXml
 
                                     CarilerDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                     System.IO.Directory.CreateDirectory(savingPath + "\\Cariler");
-                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[0] + ".xml");
+                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[z] + ".xml");
 
                                     CombineDocuments(CariCombined, CarilerDocument);
-                                
+                                }
                                 #endregion
                             }
                             //her orderın içindeki çoklu olabilen değer VE DEĞERLER
@@ -348,162 +357,162 @@ namespace DatabaseToXml
                             var packet = pakettemp.Select(b => b).Where(c => c.siparisNo == V.items_orderNumber).ToList();
 
 
-                            for (int j = 0; j < a.Length; j++)
-                            {
-
-                                #region MaterialKaydet_DOC
-                                string ürünadı = "Tanımsız";
-                                try
+                           
+                                for (int j = 0; j < a.Length; j++)
                                 {
-                                    ürünadı = MASTER_DEF[0].Split('|')[j];
+
+                                    #region MaterialKaydet_DOC
+                                    string ürünadı = "Tanımsız";
+                                    try
+                                    {
+                                        ürünadı = MASTER_DEF[0].Split('|')[j];
+
+                                        //-----------------------------
+                                        XElement ünitler = new XElement("UNITS");
+
+
+                                        ünitler.Add(new XElement(new XElement("UNIT",
+                                                 new XElement("UNIT_CODE", "ADET"),
+                                                 new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
+                                                 new XElement("USEF_PURCHCLAS", 1),//ürün adı
+                                                 new XElement("USEF_SALESCLAS", 1),
+                                                 new XElement("CONV_FACT1", 1),
+                                                 new XElement("CONV_FACT2", 1)))
+                                                 );
+                                        XDocument MaterialDocument = new XDocument(new XElement("ITEMS",
+                                                  new XElement("ITEM",
+                                               new XElement("CARD_TYPE", 1),
+                                               new XElement("CODE", SKUasMasterCode[j]),
+                                               new XElement("NAME", ürünadı),
+                                               new XElement("USEF_PURCHASING", 1),
+                                               new XElement("USEF_SALES", 1),
+                                               new XElement("USEF_MM", 1),
+                                               new XElement("VAT", vatRate[j]),
+                                               new XElement("AUTOINCSL", 1),
+                                               new XElement("LOTS_DIVISIBLE", 1),
+                                               new XElement("UNITSET_CODE", "ADET"),
+                                              ünitler,
+                                             new XElement("MULTI_ADD_TAX", 0),
+                                             new XElement("PACKET", 11),
+                                             new XElement("SELVAT", vatRate[j]),
+                                             new XElement("RETURNVAT", vatRate[j]),
+                                             new XElement("SELPRVAT", vatRate[j]),
+                                              new XElement("RETURNPRVAT", vatRate[j])
+                                          )
+                                                  )
+                                         );
+                                        MaterialDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                                        System.IO.Directory.CreateDirectory(savingPath + "\\Materials");
+                                        MaterialDocument.Save(savingPath + "\\Materials\\" + SKUasMasterCode[j] + ".xml");
+
+                                        CombineDocuments(MaterialCombined, MaterialDocument);
+                                    }
+
+                                    catch (Exception EX)
+                                    {
+                                    }
+
 
                                     //-----------------------------
-                                    XElement ünitler = new XElement("UNITS");
 
+                                    #endregion
+                                    #region ÇokluTransactionKısmı
+                                    string duedateFİX = DateFixes(dueDate[j].Split(' ')[0]);
+                                    string reservedateFix = DateFixes(RESERVE_DATE[j].Split(' ')[0]);
+                                    a[j] = new XElement("TRANSACTION");
 
-                                    ünitler.Add(new XElement(new XElement("UNIT",
-                                             new XElement("UNIT_CODE", "ADET"),
-                                             new XElement("USEF_MTRLCLASS", 1),//kırtasiyedeki logodaki ürün kodu
-                                             new XElement("USEF_PURCHCLAS", 1),//ürün adı
-                                             new XElement("USEF_SALESCLAS", 1),
-                                             new XElement("CONV_FACT1", 1),
-                                             new XElement("CONV_FACT2", 1)))
-                                             );
-                                    XDocument MaterialDocument = new XDocument(new XElement("ITEMS",
-                                              new XElement("ITEM",
-                                           new XElement("CARD_TYPE", 1),
-                                           new XElement("CODE", SKUasMasterCode[j]),
-                                           new XElement("NAME", ürünadı),
-                                           new XElement("USEF_PURCHASING", 1),
-                                           new XElement("USEF_SALES", 1),
-                                           new XElement("USEF_MM", 1),
-                                           new XElement("VAT", vatRate[j]),
-                                           new XElement("AUTOINCSL", 1),
-                                           new XElement("LOTS_DIVISIBLE", 1),
-                                           new XElement("UNITSET_CODE", "ADET"),
-                                          ünitler,
-                                         new XElement("MULTI_ADD_TAX", 0),
-                                         new XElement("PACKET", 11),
-                                         new XElement("SELVAT", vatRate[j]),
-                                         new XElement("RETURNVAT", vatRate[j]),
-                                         new XElement("SELPRVAT", vatRate[j]),
-                                          new XElement("RETURNPRVAT", vatRate[j])
-                                      )
-                                              )
-                                     );
-                                    MaterialDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                                    System.IO.Directory.CreateDirectory(savingPath + "\\Materials");
-                                    MaterialDocument.Save(savingPath + "\\Materials\\" + SKUasMasterCode[j] + ".xml");
+                                    a[j].Add(new XElement("TYPE", "0"),
+                                         new XElement("MASTER_CODE", SKUasMasterCode[j]),//kırtasiyedeki logodaki ürün kodu
+                                                                                         // new XElement("MASTER_DEF", ürünadı),//ürün adı
+                                         new XElement("QUANTITY", quantity[j]),
+                                         new XElement("PRICE", unitPrice[j].Replace(',', '.')),
+                                         //new XElement("TOTAL", Totalamount[j]),
+                                         new XElement("VAT_RATE", vatRate[j]),
+                                         new XElement("UNIT_CODE", "ADET"),//adet
+                                         new XElement("UNIT_CONV1", 1),//birim kodu tl için 1
+                                         new XElement("UNIT_CONV2", 1),//çevrim katsayısı
+                                         new XElement("ORDER_RESERVE", 1),
+                                         new XElement("DUE_DATE", duedateFİX),
+                                         new XElement("CURR_PRICE", 1),//tl için 1
+                                                                       // new XElement("PC_PRICE", "A"),
+                                                                       //new XElement("RC_XRATE", "A"),
+                                                                       //new XElement("TOTAL_NET", "A"),
+                                         new XElement("RESERVE_DATE", reservedateFix),
+                                         new XElement("RESERVE_AMOUNT", 1),
+                                           new XElement("RC_XRATE", 1)
+                                         );
+                                    #endregion
 
-                                    CombineDocuments(MaterialCombined, MaterialDocument);
+                                    #region SatişSiparişi_DOC
                                 }
-                                catch (Exception EX)
-                                {
-                                    if (MASTER_DEF.Length > 0)
-                                    {
-                                        ürünadı = MASTER_DEF[0];
-                                        MessageBox.Show(EX.Message);
-                                    }
-                                }
+                            
+                                string orderDATEFİX = DateFixes(V.items_orderDate.Split(' ')[0]);
 
 
-                                //-----------------------------
+                                string[] saatDizisi = V.items_orderDate.Split(' ')[1].Split(':');
+                                XElement transactions = new XElement("TRANSACTIONS");
+                                transactions.Add(a);
 
-                                #endregion
-                                #region ÇokluTransactionKısmı
-                                string duedateFİX = DateFixes(dueDate[j].Split(' ')[0]);
-                                string reservedateFix = DateFixes(RESERVE_DATE[j].Split(' ')[0]);
-                                a[j] = new XElement("TRANSACTION");
+                                XDocument SatışlarDocument = new XDocument(
+                                    new XElement("SALES_ORDERS",
+                                      new XElement("ORDER_SLIP",
+                                     // new XElement("NUMBER", NUMBER[i]),
+                                     new XElement("DOC_TRACK_NR", V.items_orderNumber),//@AYNI1
+                                     new XElement("DATE", orderDATEFİX),
+                                     new XElement("TIME", SaatFonksiyonu(saatDizisi[0], saatDizisi[1], saatDizisi[2])),
+                                     new XElement("DOC_NUMBER", V.items_orderNumber),
+                                     new XElement("AUXIL_CODE", "HB Öder"),
+                                     new XElement("ARP_CODE", CODE),
+                                     new XElement("RC_RATE", "1"),
+                                     new XElement("NOTES1", V.items_invoice_address_name),
+                                     new XElement("NOTES2", V.items_invoice_address_district),
+                                     new XElement("NOTES3", V.items_invoice_address_town),
+                                     new XElement("NOTES5", V.items_invoice_address_city),
+                                     new XElement("ORDER_STATUS", "4"),
+                                     new XElement("CURRSEL_TOTAL", "2"),
+                                    transactions
+                                    ,//Transactions Altı
+                                   new XElement("CUST_ORD_NO", V.items_orderNumber),//@AYNI1
+                                   new XElement("DOC_TRACKING_NR", V.items_orderNumber)//@AYNI1
+                                )
+                       //orderslipin altı
+                       )
 
-                                a[j].Add(new XElement("TYPE", "0"),
-                                     new XElement("MASTER_CODE", SKUasMasterCode[j]),//kırtasiyedeki logodaki ürün kodu
-                                                                                     // new XElement("MASTER_DEF", ürünadı),//ürün adı
-                                     new XElement("QUANTITY", quantity[j]),
-                                     new XElement("PRICE", unitPrice[j].Replace(',', '.')),
-                                     //new XElement("TOTAL", Totalamount[j]),
-                                     new XElement("VAT_RATE", vatRate[j]),
-                                     new XElement("UNIT_CODE", "ADET"),//adet
-                                     new XElement("UNIT_CONV1", 1),//birim kodu tl için 1
-                                     new XElement("UNIT_CONV2", 1),//çevrim katsayısı
-                                     new XElement("ORDER_RESERVE", 1),
-                                     new XElement("DUE_DATE", duedateFİX),
-                                     new XElement("CURR_PRICE", 1),//tl için 1
-                                                                   // new XElement("PC_PRICE", "A"),
-                                                                   //new XElement("RC_XRATE", "A"),
-                                                                   //new XElement("TOTAL_NET", "A"),
-                                     new XElement("RESERVE_DATE", reservedateFix),
-                                     new XElement("RESERVE_AMOUNT", 1),
-                                       new XElement("RC_XRATE", 1)
-                                     );
+                       //salesorderın altı
+                       );
+                                SatışlarDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                                System.IO.Directory.CreateDirectory(savingPath + "\\SatışSipariş");
+                                SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + V.items_orderNumber + ".xml");
+
+                                CombineDocuments(SatısCombined, SatışlarDocument);
                                 #endregion
                             }
-                            #region SatişSiparişi_DOC
-                            string orderDATEFİX = DateFixes(V.items_orderDate.Split(' ')[0]);
-
-
-                            string[] saatDizisi = V.items_orderDate.Split(' ')[1].Split(':');
-                            XElement transactions = new XElement("TRANSACTIONS");
-                            transactions.Add(a);
-
-                            XDocument SatışlarDocument = new XDocument(
-                                new XElement("SALES_ORDERS",
-                                  new XElement("ORDER_SLIP",
-                                 // new XElement("NUMBER", NUMBER[i]),
-                                 new XElement("DOC_TRACK_NR", V.items_orderNumber),//@AYNI1
-                                 new XElement("DATE", orderDATEFİX),
-                                 new XElement("TIME", SaatFonksiyonu(saatDizisi[0], saatDizisi[1], saatDizisi[2])),
-                                 new XElement("DOC_NUMBER", V.items_orderNumber),
-                                 new XElement("AUXIL_CODE", "HB Öder"),
-                                 new XElement("ARP_CODE", CODE),
-                                 new XElement("RC_RATE", "1"),
-                                 new XElement("NOTES1", V.items_invoice_address_name),
-                                 new XElement("NOTES2", V.items_invoice_address_district),
-                                 new XElement("NOTES3", V.items_invoice_address_town),
-                                 new XElement("NOTES5", V.items_invoice_address_city),
-                                 new XElement("ORDER_STATUS", "4"),
-                                 new XElement("CURRSEL_TOTAL", "2"),
-                                transactions
-                                ,//Transactions Altı
-                               new XElement("CUST_ORD_NO", V.items_orderNumber),//@AYNI1
-                               new XElement("DOC_TRACKING_NR", V.items_orderNumber)//@AYNI1
-                            )
-                   //orderslipin altı
-                   )
-
-                   //salesorderın altı
-                   );
-                            SatışlarDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                            System.IO.Directory.CreateDirectory(savingPath + "\\SatışSipariş");
-                            SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + V.items_orderNumber + ".xml");
-
-                            CombineDocuments(SatısCombined, SatışlarDocument);
-                            #endregion
+                            progressBar1.Maximum = query.Count();
+                            progressBar1.Value++;
                         }
-                        progressBar1.Maximum = query.Count();
-                        progressBar1.Value ++;
-                    }
-                    if (SatısCombined.Elements().Nodes().Count()>1)
-                    {
-                        SatısCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Satışlar.xml");
+                        if (SatısCombined.Elements().Nodes().Count() > 1)
+                        {
+                            SatısCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Satışlar.xml");
+
+                        }
+                        if (CariCombined.Elements().Nodes().Count() > 1)
+                        {
+                            CariCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
+
+                        }
+                        if (MaterialCombined.Elements().Nodes().Count() > 1)
+                        {
+                            MaterialCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Materyaller.xml");
+
+                        }
 
                     }
-                    if (CariCombined.Elements().Nodes().Count() > 1)
-                    {
-                        CariCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
-
-                    }
-                    if (MaterialCombined.Elements().Nodes().Count() > 1)
-                    {
-                        MaterialCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Materyaller.xml");
-
-                    }
-
-                }
+                
                 finally
                 {
-                  
+
                     MessageBox.Show("işlemler tamamlandı");
-                    progressBar1.Value = 0; 
+                    progressBar1.Value = 0;
                     KaydetBasla.Enabled = true;
 
                 }
