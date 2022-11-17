@@ -45,7 +45,7 @@
             // KaydetBasla
             // 
             this.KaydetBasla.Enabled = false;
-            this.KaydetBasla.Location = new System.Drawing.Point(330, 128);
+            this.KaydetBasla.Location = new System.Drawing.Point(298, 100);
             this.KaydetBasla.Name = "KaydetBasla";
             this.KaydetBasla.Size = new System.Drawing.Size(223, 219);
             this.KaydetBasla.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(330, 36);
+            this.button2.Location = new System.Drawing.Point(298, 17);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(223, 43);
             this.button2.TabIndex = 1;
@@ -77,7 +77,7 @@
             // XmlMergeButton
             // 
             this.XmlMergeButton.Enabled = false;
-            this.XmlMergeButton.Location = new System.Drawing.Point(559, 36);
+            this.XmlMergeButton.Location = new System.Drawing.Point(527, 17);
             this.XmlMergeButton.Name = "XmlMergeButton";
             this.XmlMergeButton.Size = new System.Drawing.Size(182, 43);
             this.XmlMergeButton.TabIndex = 6;
@@ -115,23 +115,22 @@
             // BüyükDate
             // 
             this.BüyükDate.CustomFormat = "";
-            this.BüyükDate.Location = new System.Drawing.Point(164, 36);
+            this.BüyükDate.Location = new System.Drawing.Point(85, 49);
             this.BüyükDate.Name = "BüyükDate";
-            this.BüyükDate.Size = new System.Drawing.Size(163, 22);
+            this.BüyükDate.Size = new System.Drawing.Size(207, 22);
             this.BüyükDate.TabIndex = 15;
-            this.BüyükDate.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // KüçükDate
             // 
-            this.KüçükDate.Location = new System.Drawing.Point(6, 36);
+            this.KüçükDate.Location = new System.Drawing.Point(85, 17);
             this.KüçükDate.Name = "KüçükDate";
-            this.KüçükDate.Size = new System.Drawing.Size(149, 22);
+            this.KüçükDate.Size = new System.Drawing.Size(206, 22);
             this.KüçükDate.TabIndex = 16;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 17);
+            this.label3.Location = new System.Drawing.Point(3, 23);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 16);
             this.label3.TabIndex = 17;
@@ -140,7 +139,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(161, 17);
+            this.label4.Location = new System.Drawing.Point(38, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 16);
             this.label4.TabIndex = 18;
@@ -148,7 +147,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(330, 369);
+            this.progressBar1.Location = new System.Drawing.Point(298, 336);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(223, 34);
             this.progressBar1.TabIndex = 19;
@@ -157,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(713, 391);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

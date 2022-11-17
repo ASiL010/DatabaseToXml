@@ -29,7 +29,7 @@ namespace DatabaseToXml
         #endregion
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
         Thread SatışSipariş;
-      public static string savingPath = Directory.GetCurrentDirectory();
+        public static string savingPath = Directory.GetCurrentDirectory();
         string SeçilenSiparişNumarası="";
         public Form1()
         {
@@ -48,8 +48,7 @@ namespace DatabaseToXml
             if (sem.CurrentCount == 0) sem.Release();
 
         }
-
-  
+ 
         private void KaydetmeYeri_Clk(object sender, EventArgs e)
         {
 
@@ -93,26 +92,7 @@ namespace DatabaseToXml
         {
             XmlMerger a=new XmlMerger();
             string birleştirmeİsmi = null;
-            /*
-            if (CariRadio.Checked)
-            {
-                birleştirmeİsmi = " Cariler";
-            }
-            if (SatısRadio.Checked)
-            {
-                birleştirmeİsmi = " Satışlar";
-
-            }
-            if (MalzemeRadio.Checked)
-            {
-                birleştirmeİsmi = " Malzemeler";
-            }*/
             a.MergeMyXmls(birleştirmeİsmi);
-        }
-
-        private void OrderBox_CheckedChanged(object sender, EventArgs e)
-        {
-           
         }
 
         private void SelectedOrderNumber_TextChanged(object sender, EventArgs e)
@@ -537,11 +517,6 @@ namespace DatabaseToXml
 
                 }
             }
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            MessageBox.Show(BüyükDate.Value.ToString());
         }
     }
 
