@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -136,8 +137,50 @@ namespace DatabaseToXml
             System.Diagnostics.Process.Start("https://github.com/ASiL010");
             author.LinkVisited = true;
         }
+        public string Reverse(string text)
+        {
+            if (text == null) return null;
 
-        private void SatıŞSiparisiKaydetBaslaTread()
+            // this was posted by petebob as well 
+            char[] array = text.ToCharArray();
+            Array.Reverse(array);
+            return new String(array);
+        }
+        public bool DateBetweenPickers(string kontroledilecek)
+        {
+            string newDate=DateFixes(kontroledilecek.Split(' ')[0]);
+            string datepicker = DateFixes(BüyükDate.Value.ToString().Split(' ')[0]);
+            string littedatePicker= DateFixes(KüçükDate.Value.ToString().Split(' ')[0]);
+            // MessageBox.Show(newDate+"\n"+datepicker);
+            int MiddleDate = Convert.ToInt32(Reverse(newDate.Replace(".", "")));
+            int RightDate = Convert.ToInt32(Reverse(datepicker.Replace(".", "")));
+            int Left = Convert.ToInt32(Reverse(littedatePicker.Replace(".", "")));
+                if (MiddleDate < RightDate && MiddleDate > Left)
+            {
+           //     MessageBox.Show("V : "+ Convert.ToInt32(Reverse(newDate.Replace(".", "").Replace(" ", ""))).ToString()+"\nD : " + Convert.ToInt32(datepicker.Replace(".", "")).ToString());
+
+                return true;
+            }
+            else
+            {
+             //   MessageBox.Show("V : " + Convert.ToInt32(Reverse(newDate.Replace(".", "").Replace(" ", ""))).ToString() + "\nD : " + Convert.ToInt32(Reverse(datepicker.Replace(".", ""))).ToString());
+
+                return false;
+            }
+         
+        }
+        public string DateFixes(string toBeFİX)
+        {
+            string ForFix="";
+            if (toBeFİX.Length == 9)
+            {
+                ForFix = "0" + toBeFİX;
+            }
+            else ForFix = toBeFİX;
+            return ForFix;
+        }
+    
+            private void SatıŞSiparisiKaydetBaslaTread()
         {
             while (true)
             {
@@ -159,14 +202,14 @@ namespace DatabaseToXml
 
                     foreach (var item in query)
                     {
-                        
+
                         var need = siparis.Select(c => c).Where(k => k.items_orderNumber == item).ToList();
+
                         var V = need[0];
-
-                        #region AllNeededVaribles
-
-
-                        #endregion
+                        if (DateBetweenPickers(V.items_orderDate))
+                        {
+                            MessageBox.Show(V.items_orderDate);
+                        }
                         #region Cari Hesaplar
 
                         #region AllNeededVaribles
@@ -375,16 +418,8 @@ namespace DatabaseToXml
 
                             #endregion
                             #region ÇokluTransactionKısmı
-                            string duedateFİX = "";
-                            string reservedateFix = "";
-                            if (dueDate[j].Split(' ')[0].Length == 9)
-                            {
-                                duedateFİX = "0" + dueDate[j].Split(' ')[0];
-                            }
-                            if (RESERVE_DATE[j].Split(' ')[0].Length == 9)
-                            {
-                                reservedateFix = "0" + RESERVE_DATE[j].Split(' ')[0];
-                            }
+                            string duedateFİX = DateFixes(dueDate[j].Split(' ')[0]);
+                            string reservedateFix = DateFixes(RESERVE_DATE[j].Split(' ')[0]);
                             a[j] = new XElement("TRANSACTION");
 
                             a[j].Add(new XElement("TYPE", "0"),
@@ -410,11 +445,7 @@ namespace DatabaseToXml
                             #endregion
                         }
                         #region SatişSiparişi_DOC
-                        string DATEFİX = "";
-                        if (V.items_orderDate.Split(' ')[0].Length == 9)
-                        {
-                            DATEFİX = "0" + V.items_orderDate.Split(' ')[0];
-                        }
+                        string orderDATEFİX = DateFixes(V.items_orderDate.Split(' ')[0]);
 
 
                         string[] saatDizisi = V.items_orderDate.Split(' ')[1].Split(':');
@@ -426,7 +457,7 @@ namespace DatabaseToXml
                                       new XElement("ORDER_SLIP",
                                      // new XElement("NUMBER", NUMBER[i]),
                                      new XElement("DOC_TRACK_NR", V.items_orderNumber),//@AYNI1
-                                     new XElement("DATE", DATEFİX),
+                                     new XElement("DATE", orderDATEFİX),
                                      new XElement("TIME", SaatFonksiyonu(saatDizisi[0], saatDizisi[1], saatDizisi[2])),
                                      new XElement("DOC_NUMBER", V.items_orderNumber),
                                      new XElement("AUXIL_CODE", "HB Öder"),
@@ -465,6 +496,10 @@ namespace DatabaseToXml
             }
         }
 
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show(BüyükDate.Value.ToString());
+        }
     }
 
 

@@ -40,13 +40,17 @@
             this.OrderBox = new System.Windows.Forms.CheckBox();
             this.SelectedOrderNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.BüyükDate = new System.Windows.Forms.DateTimePicker();
+            this.KüçükDate = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // KaydetBasla
             // 
             this.KaydetBasla.Enabled = false;
-            this.KaydetBasla.Location = new System.Drawing.Point(316, 128);
+            this.KaydetBasla.Location = new System.Drawing.Point(330, 128);
             this.KaydetBasla.Name = "KaydetBasla";
             this.KaydetBasla.Size = new System.Drawing.Size(223, 219);
             this.KaydetBasla.TabIndex = 0;
@@ -56,7 +60,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(316, 36);
+            this.button2.Location = new System.Drawing.Point(330, 36);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(223, 43);
             this.button2.TabIndex = 1;
@@ -167,11 +171,49 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Seçilen Sipariş Numarası";
             // 
+            // BüyükDate
+            // 
+            this.BüyükDate.CustomFormat = "";
+            this.BüyükDate.Location = new System.Drawing.Point(164, 36);
+            this.BüyükDate.Name = "BüyükDate";
+            this.BüyükDate.Size = new System.Drawing.Size(163, 22);
+            this.BüyükDate.TabIndex = 15;
+            this.BüyükDate.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // KüçükDate
+            // 
+            this.KüçükDate.Location = new System.Drawing.Point(6, 36);
+            this.KüçükDate.Name = "KüçükDate";
+            this.KüçükDate.Size = new System.Drawing.Size(149, 22);
+            this.KüçükDate.TabIndex = 16;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 17);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 16);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Başlangıç : ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(161, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 16);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Bitiş : ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.KüçükDate);
+            this.Controls.Add(this.BüyükDate);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.SelectedOrderNumber);
             this.Controls.Add(this.OrderBox);
@@ -205,6 +247,10 @@
         private System.Windows.Forms.CheckBox OrderBox;
         private System.Windows.Forms.TextBox SelectedOrderNumber;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker BüyükDate;
+        private System.Windows.Forms.DateTimePicker KüçükDate;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 
