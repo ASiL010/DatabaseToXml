@@ -226,14 +226,6 @@ namespace DatabaseToXml
 
                             if (V.items_invoice_taxNumber == "")
                             {
-
-
-
-                                for (int z = 0; z < CODE.Length; z++)
-                                {
-
-
-                                    MessageBox.Show(CODE.Length.ToString());
                                     XDocument CarilerDocument = new XDocument(
                                         new XElement("AR_APS",
                                         new XElement("AR_AP",
@@ -287,16 +279,12 @@ namespace DatabaseToXml
                                     CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[0] + ".xml");
 
                                     CombineDocuments(CariCombined, CarilerDocument);
-                                }
+                                
                             }
                             else
                             {
                                 //ŞİRKET Firma HESAPLARI BURAYA 
 
-
-
-                                for (int z = 0; z < CODE.Length; z++)
-                                {
                                     XDocument CarilerDocument = new XDocument(
                                        new XElement("AR_APS",
                                          new XElement("AR_AP",
@@ -338,10 +326,10 @@ namespace DatabaseToXml
 
                                     CarilerDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                     System.IO.Directory.CreateDirectory(savingPath + "\\Cariler");
-                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[z] + ".xml");
+                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[0] + ".xml");
 
                                     CombineDocuments(CariCombined, CarilerDocument);
-                                }
+                                
                                 #endregion
                             }
                             //her orderın içindeki çoklu olabilen değer VE DEĞERLER
