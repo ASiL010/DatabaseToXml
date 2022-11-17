@@ -62,7 +62,7 @@ namespace DatabaseToXml
                     }
                 }
                 xmlDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                MessageBox.Show(element.Name.ToString());
+                //MessageBox.Show(element.Name.ToString());
                 if (element.Name.ToString()== "AR_APS")
                 {
                     xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");

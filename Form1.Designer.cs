@@ -39,6 +39,7 @@
             this.KüçükDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // KaydetBasla
@@ -145,11 +146,19 @@
             this.label4.TabIndex = 18;
             this.label4.Text = "Bitiş : ";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(330, 369);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(223, 34);
+            this.progressBar1.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.KüçükDate);
@@ -182,6 +191,7 @@
         private System.Windows.Forms.DateTimePicker KüçükDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

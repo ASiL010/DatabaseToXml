@@ -39,15 +39,13 @@ namespace DatabaseToXml
         private void Form1_Load(object sender, EventArgs e)
         {
             SatışSipariş = new Thread(SatıŞSiparisiKaydetBaslaTread);
-           
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
         private void KaydetBasla_Clk(object sender, EventArgs e)
         {
-
             if (SatışSipariş.ThreadState == System.Threading.ThreadState.Unstarted)
                 SatışSipariş.Start();
             if (sem.CurrentCount == 0) sem.Release();
-
 
         }
 
@@ -197,12 +195,14 @@ namespace DatabaseToXml
             return combine;
         }
             private void SatıŞSiparisiKaydetBaslaTread()
-        {
+            {
+            
             while (true)
             {
                 sem.Wait();
                 try
                 {
+                    KaydetBasla.Enabled = false;
                     db_gulSistemEntities gulsistem = new db_gulSistemEntities();
                     var siparis = gulsistem.tbl_siparis;
 
@@ -508,16 +508,33 @@ namespace DatabaseToXml
                             CombineDocuments(SatısCombined, SatışlarDocument);
                             #endregion
                         }
+                        progressBar1.Maximum = query.Count();
+                        progressBar1.Value ++;
                     }
-                    SatısCombined.Save(savingPath + "\\"+DateTime.Now.ToString().Replace(".","-").Replace(":",".")+ " Satışlar.xml");
-                    CariCombined.Save(savingPath + "\\"+ DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
-                    MaterialCombined.Save(savingPath + "\\"+ DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Materyaller.xml");
+                    if (SatısCombined.Elements().Nodes().Count()>1)
+                    {
+                        SatısCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Satışlar.xml");
+
+                    }
+                    if (CariCombined.Elements().Nodes().Count() > 1)
+                    {
+                        CariCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
+
+                    }
+                    if (MaterialCombined.Elements().Nodes().Count() > 1)
+                    {
+                        MaterialCombined.Save(savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Materyaller.xml");
+
+                    }
 
                 }
                 finally
                 {
-
+                  
                     MessageBox.Show("işlemler tamamlandı");
+                    progressBar1.Value = 0; 
+                    KaydetBasla.Enabled = true;
+
                 }
             }
         }
