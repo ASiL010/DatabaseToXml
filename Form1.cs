@@ -161,7 +161,7 @@ namespace DatabaseToXml
             int MiddleDate = Convert.ToInt32(ReverseDate(newDate.Replace(".", "")));
             int RightDate = Convert.ToInt32(ReverseDate(datepicker.Replace(".", "")));
             int Left = Convert.ToInt32(ReverseDate(littedatePicker.Replace(".", "")));
-            if (MiddleDate < RightDate && MiddleDate > Left)
+            if (MiddleDate <= RightDate && MiddleDate >= Left)
             {
                 //MessageBox.Show(Left+ "\n" + MiddleDate+ "\n" + RightDate+"\n");
                 return true;
