@@ -365,7 +365,7 @@ namespace DatabaseToXml
                                     string ürünadı = "Tanımsız";
                                     try
                                     {
-                                        ürünadı = MASTER_DEF[0].Split('|')[j];
+                                        ürünadı = MASTER_DEF[0].Split('|')[j];//her ürün ismi yazılmamış buradaki j sıkıntı çıkartıyor 
 
                                         //-----------------------------
                                         XElement ünitler = new XElement("UNITS");
