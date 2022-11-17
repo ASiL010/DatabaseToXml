@@ -215,12 +215,12 @@ namespace DatabaseToXml
 
 
 
-                            string[] ADDRESS1 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
-                            string[] DISTRICT = stringArrayDoldur("Select [items_invoice_address_district] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
-                            string[] TOWN = stringArrayDoldur("Select [items_invoice_address_town] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
-                            string[] CITY = stringArrayDoldur("Select [items_invoice_address_city] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
-                            string[] TAX_OFFICE = stringArrayDoldur("Select items_invoice_taxOffice FROM tbl_siparis where [items_invoice_address_addressId] ='" + V.items_invoice_address_addressId + "'");
-                            string[] NAME = stringArrayDoldur("Select [items_customerName] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
+                            string ADDRESS1 = V.items_invoice_address_address;
+                            string DISTRICT = V.items_invoice_address_district;
+                            string TOWN = V.items_invoice_address_town;
+                            string CITY = V.items_invoice_address_city;
+                            string TAX_OFFICE = V.items_invoice_taxOffice;
+                            string NAME = V.items_customerName;
                             #endregion
 
 
@@ -233,19 +233,19 @@ namespace DatabaseToXml
                                 {
 
 
-
+                                    MessageBox.Show(CODE.Length.ToString());
                                     XDocument CarilerDocument = new XDocument(
                                         new XElement("AR_APS",
                                         new XElement("AR_AP",
                                              new XElement("ACCOUNT_TYPE", 3),
-                                          new XElement("CODE", CODE[z]),
-                                          new XElement("TITLE", TITLE[z]),
-                                          new XElement("ADDRESS1", ADDRESS1[z]),
-                                          new XElement("DISTRICT", DISTRICT[z]),
+                                          new XElement("CODE", CODE[0]),
+                                          new XElement("TITLE", TITLE[0]),
+                                          new XElement("ADDRESS1", ADDRESS1),
+                                          new XElement("DISTRICT", DISTRICT),
                                           new XElement("TOWN_CODE", "TR"),
-                                          new XElement("TOWN", TOWN[z]),
+                                          new XElement("TOWN", TOWN),
                                           new XElement("CITY_CODE", "TR"),
-                                          new XElement("CITY", CITY[z]),
+                                          new XElement("CITY", CITY),
                                           new XElement("COUNTRY_CODE", "TR"),
                                           new XElement("COUNTRY", "TÜRKİYE"),
                                            //postaKodu
@@ -273,8 +273,8 @@ namespace DatabaseToXml
                                           new XElement("EARCHIVE_SEND_MODE", 1),
                                           new XElement("PROFILE_ID", 2),
                                            new XElement("ACCEPT_EINV", 1),
-                                          new XElement("NAME", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
-                                          new XElement("SURNAME", NAME[z].Split(' ').Last())
+                                          new XElement("NAME", NAME.Split(' ').Take(NAME.Split(' ').Length - 1)),
+                                          new XElement("SURNAME", NAME.Split(' ').Last())
                                     //,
                                     //   new XElement("SURNAME", SURNAME[z])
 
@@ -284,7 +284,7 @@ namespace DatabaseToXml
 
                                     CarilerDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                     System.IO.Directory.CreateDirectory(savingPath + "\\Cariler");
-                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[z] + ".xml");
+                                    CarilerDocument.Save(savingPath + "\\Cariler\\" + CODE[0] + ".xml");
 
                                     CombineDocuments(CariCombined, CarilerDocument);
                                 }
@@ -301,19 +301,19 @@ namespace DatabaseToXml
                                        new XElement("AR_APS",
                                          new XElement("AR_AP",
                                              new XElement("ACCOUNT_TYPE", "3"),
-                                             new XElement("CODE", CODE[z]),
-                                             new XElement("TITLE", TITLE[z]),
-                                             new XElement("ADDRESS1", ADDRESS1[z]),
+                                             new XElement("CODE", CODE[0]),
+                                             new XElement("TITLE", TITLE[0]),
+                                             new XElement("ADDRESS1", ADDRESS1),
                                              new XElement("TOWN_CODE", "TR"),
-                                             new XElement("DISTRICT", DISTRICT[z]),
-                                             new XElement("TOWN", TOWN[z]),
+                                             new XElement("DISTRICT", DISTRICT),
+                                             new XElement("TOWN", TOWN),
                                              new XElement("CITY_CODE", "TR"),
-                                             new XElement("CITY", CITY[z]),
+                                             new XElement("CITY", CITY),
                                              new XElement("COUNTRY_CODE", "TR"),
                                              new XElement("COUNTRY", "TÜRKİYE"),
                                              //postakodu
                                              new XElement("TAX_ID", V.items_invoice_taxNumber),
-                                             new XElement("TAX_OFFICE", TAX_OFFICE[z]),
+                                             new XElement("TAX_OFFICE", TAX_OFFICE),
                                              new XElement("CORRESP_LANG", 1),
                                              new XElement("AUTO_PAID_BANK", 0),
                                              new XElement("CL_ORD_FREQ", 1),
@@ -324,8 +324,8 @@ namespace DatabaseToXml
                                              new XElement("EARCHIVE_SEND_MODE", "1"),
                                              new XElement("INSTEAD_OF_DISPATCH", "1"),
                                              new XElement("INVOICE_PRNT_CNT", 1),
-                                             new XElement("CONTACT", NAME[z].Split(' ').Take(NAME[z].Split(' ').Length - 1)),
-                                             new XElement("CONTACT2", NAME[z].Split(' ').Last())
+                                             new XElement("CONTACT", NAME.Split(' ').Take(NAME.Split(' ').Length - 1)),
+                                             new XElement("CONTACT2", NAME.Split(' ').Last())
                                        //[NAME[z].Split(' ').Length - 1]
                                        //,
                                        //     new XElement("POST_LABEL", POST_LABEL[z]),
@@ -344,7 +344,7 @@ namespace DatabaseToXml
                                 }
                                 #endregion
                             }
-                            //her orderın içindeki çoklu olabilen değer
+                            //her orderın içindeki çoklu olabilen değer VE DEĞERLER
                             string[] Totalamount = stringArrayDoldur("SELECT  items_totalPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
                             string[] unitPrice = stringArrayDoldur("SELECT  items_unitPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
                             string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
