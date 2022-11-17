@@ -209,9 +209,12 @@ namespace DatabaseToXml
                             #region Cari Hesaplar
 
                             #region AllNeededVaribles
-
+                            
                             string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
                             string[] TITLE = stringArrayDoldur("Select [Mad] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
+
+
+
                             string[] ADDRESS1 = stringArrayDoldur("Select [items_invoice_address_address] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
                             string[] DISTRICT = stringArrayDoldur("Select [items_invoice_address_district] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
                             string[] TOWN = stringArrayDoldur("Select [items_invoice_address_town] FROM [db_gulSistem].[dbo].[tbl_siparis] where [items_invoice_address_addressId]='" + V.items_invoice_address_addressId + "'");
