@@ -29,7 +29,7 @@ namespace DatabaseToXml
         #endregion
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
         Thread SatışSipariş;
-        public static string savingPath = Directory.GetCurrentDirectory();
+        public static string savingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\LOGO_XML_FİLES";
         string SeçilenSiparişNumarası="";
         public Form1()
         {
@@ -40,6 +40,14 @@ namespace DatabaseToXml
         {
             SatışSipariş = new Thread(SatıŞSiparisiKaydetBaslaTread);
             Control.CheckForIllegalCrossThreadCalls = false;
+            if (!Directory.Exists(savingPath))
+            {
+                System.IO.Directory.CreateDirectory(savingPath);
+
+            }
+
+
+
         }
         private void KaydetBasla_Clk(object sender, EventArgs e)
         {
@@ -183,6 +191,7 @@ namespace DatabaseToXml
                 try
                 {
                     KaydetBasla.Enabled = false;
+                    SecilenIleKaydet_btn.Enabled = false;
                     db_gulSistemEntities gulsistem = new db_gulSistemEntities();
                     var siparis = gulsistem.tbl_siparis;
 
@@ -193,7 +202,7 @@ namespace DatabaseToXml
 
 
                     string[] orderNumbers = new string[0];
-                    if (OrderBox.Checked == true)
+                    if (Pnl_secilenSiparis.Visible)
                         query = siparis.Select(b => b.items_orderNumber).Where(c => c == SeçilenSiparişNumarası).Distinct().ToList();
                     else
                         query = siparis.Select(b => b.items_orderNumber).Distinct().ToList();
@@ -204,13 +213,20 @@ namespace DatabaseToXml
                         var need = siparis.Select(c => c).Where(k => k.items_orderNumber == item).ToList();
 
                         var V = need[0];
-                        if (DateBetweenPickers(V.items_orderDate))
+                        if (!Pnl_secilenSiparis.Visible)
                         {
-                            #region Cari Hesaplar
+                        if (!DateBetweenPickers(V.items_orderDate) )
+                        {
+                            progressBar1.Maximum = query.Count();
+                            progressBar1.Value++;
+                            continue;
+                        }
+                        }
+                        #region Cari Hesaplar
 
-                            #region AllNeededVaribles
+                        #region AllNeededVaribles
 
-                            string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
+                        string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
                             string[] TITLE = stringArrayDoldur("Select [Mad] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
 
 
@@ -486,7 +502,7 @@ namespace DatabaseToXml
 
                                 CombineDocuments(SatısCombined, SatışlarDocument);
                                 #endregion
-                            }
+                            
                             progressBar1.Maximum = query.Count();
                             progressBar1.Value++;
                         }
@@ -514,9 +530,27 @@ namespace DatabaseToXml
                     MessageBox.Show("işlemler tamamlandı");
                     progressBar1.Value = 0;
                     KaydetBasla.Enabled = true;
-
+                    SecilenIleKaydet_btn.Enabled = true;
                 }
             }
+        }
+
+        private void OncekineDon_Click(object sender, EventArgs e)
+        {
+            Pnl_secilenSiparis.Visible =false;
+        }
+
+        private void SecilenPanelineGit_Click(object sender, EventArgs e)
+        {
+            Pnl_secilenSiparis.Visible = true;
+        }
+
+        private void SecilenIleKaydet_btn_Click(object sender, EventArgs e)
+        {
+            if (SatışSipariş.ThreadState == System.Threading.ThreadState.Unstarted)
+                SatışSipariş.Start();
+            if (sem.CurrentCount == 0) sem.Release();
+
         }
     }
 
