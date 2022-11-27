@@ -33,5 +33,6 @@ namespace DatabaseToXml
         public string id { get; set; }
         public Nullable<bool> basilmadurumu { get; set; }
         public string adres { get; set; }
+        public Nullable<System.DateTime> kayittarihi { get; set; }
     }
 }

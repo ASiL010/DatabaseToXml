@@ -10,15 +10,13 @@
 namespace DatabaseToXml
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tbl_logbuybux
+    public partial class sp_helpdiagrams_Result
     {
-        public int id { get; set; }
-        public string sku { get; set; }
-        public string fiyat { get; set; }
-        public string bilgi { get; set; }
-        public string count { get; set; }
-        public Nullable<System.DateTime> tarih { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

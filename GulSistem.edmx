@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="db_gulSistemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="failed_jobs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uuid" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="connection" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="queue" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="payload" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="exception" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="failed_at" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="HbKayitBazliMuhasebeServisi">
           <Key>
             <PropertyRef Name="transactionType" />
@@ -53,6 +65,40 @@
           <Property Name="quantity" Type="nvarchar(max)" />
           <Property Name="sku" Type="nvarchar(max)" />
           <Property Name="merchantSku" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="migrations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="migration" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="batch" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'db_gulSistem.dbo.password_resets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="password_resets">
+          <Key>
+            <PropertyRef Name="email" />
+            <PropertyRef Name="token" />
+          </Key>
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="personal_access_tokens">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tokenable_type" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="tokenable_id" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="abilities" Type="nvarchar(max)" />
+          <Property Name="last_used_at" Type="datetime" />
+          <Property Name="expires_at" Type="datetime" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
         </EntityType>
         <EntityType Name="pictures">
           <Key>
@@ -673,7 +719,11 @@
           <Property Name="fark" Type="decimal" Precision="18" Scale="2" />
           <Property Name="endusukfiyat" Type="decimal" Precision="18" Scale="2" />
           <Property Name="baslangıcfiyat" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="farkdurum" Type="bit" />
+          <Property Name="Farkdurum" Type="bit" />
+          <Property Name="durum" Type="bit" />
+          <Property Name="GuncelFiyat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="elleotomatik" Type="bit" />
+          <Property Name="islemsayisi" Type="int" />
         </EntityType>
         <EntityType Name="tbl_buyboxTy">
           <Key>
@@ -845,18 +895,6 @@
           <Property Name="firma_id" Type="int" />
           <Property Name="kullanici_id" Type="int" />
         </EntityType>
-        <EntityType Name="tbl_guncelFiyat">
-          <Key>
-            <PropertyRef Name="gFiyat_id" />
-          </Key>
-          <Property Name="gFiyat_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="urunSku" Type="varchar(max)" />
-          <Property Name="urun_id" Type="varchar(max)" />
-          <Property Name="guncelFiyat" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="pazarYeri" Type="varchar(max)" />
-          <Property Name="durum" Type="bit" />
-          <Property Name="farkdurum" Type="bit" />
-        </EntityType>
         <EntityType Name="tbl_hacim">
           <Key>
             <PropertyRef Name="hacim_id" />
@@ -874,6 +912,20 @@
           <Property Name="Barcode" Type="nchar" MaxLength="10" />
           <Property Name="Price" Type="nchar" MaxLength="10" />
           <Property Name="Stock" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tbl_iptalEdilenTy">
+          <Key>
+            <PropertyRef Name="iptalEdilenSiparisler_id" />
+          </Key>
+          <Property Name="iptalEdilenSiparisler_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderNumber" Type="varchar(max)" />
+          <Property Name="customerFirstName" Type="varchar(max)" />
+          <Property Name="id" Type="varchar(max)" />
+          <Property Name="cargoTrackingNumber" Type="varchar(max)" />
+          <Property Name="cargoProviderName" Type="varchar(max)" />
+          <Property Name="orderDate" Type="varchar(max)" />
+          <Property Name="status" Type="varchar(max)" />
+          <Property Name="totalPrice" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="tbl_kategori">
           <Key>
@@ -948,6 +1000,7 @@
           <Property Name="sku" Type="nvarchar(max)" />
           <Property Name="fiyat" Type="nvarchar" MaxLength="50" />
           <Property Name="bilgi" Type="nvarchar(max)" />
+          <Property Name="count" Type="nvarchar(max)" />
           <Property Name="tarih" Type="datetime" />
         </EntityType>
         <EntityType Name="tbl_magazaFiyatlari">
@@ -1223,6 +1276,7 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="id" Type="nvarchar(max)" />
           <Property Name="basilmadurumu" Type="bit" />
           <Property Name="adres" Type="nvarchar(max)" />
+          <Property Name="kayittarihi" Type="datetime" />
         </EntityType>
         <EntityType Name="tbl_picture">
           <Key>
@@ -1302,6 +1356,10 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="Image5" Type="varchar(max)" />
           <Property Name="renk_variant_property" Type="varchar(max)" />
           <Property Name="ebatlar_variant_property" Type="varchar(max)" />
+          <Property Name="markaTy" Type="varchar(max)" />
+          <Property Name="kategoriTy" Type="varchar(max)" />
+          <Property Name="listeFiyatiTy" Type="varchar(max)" />
+          <Property Name="satisFiyatiTy" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="tbl_productsAltUrunHb">
           <Key>
@@ -1323,7 +1381,11 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="stock" Type="varchar(max)" />
           <Property Name="renk_variant_property" Type="varchar(max)" />
           <Property Name="ebatlar_variant_property" Type="varchar(max)" />
-          <Property Name="durum" Type="varbinary" MaxLength="1" />
+          <Property Name="durum" Type="bit" />
+          <Property Name="markaTy" Type="varchar(max)" />
+          <Property Name="kategoriTy" Type="varchar(max)" />
+          <Property Name="listeFiyatiTy" Type="varchar(max)" />
+          <Property Name="satisFiyatiTy" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="tbl_renk">
           <Key>
@@ -1347,7 +1409,7 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="items_sku" Type="nvarchar(max)" />
           <Property Name="items_orderId" Type="nvarchar(max)" />
           <Property Name="items_orderNumber" Type="nvarchar(max)" />
-          <Property Name="items_orderDate" Type="nvarchar(max)" />
+          <Property Name="items_orderDate" Type="datetime" />
           <Property Name="items_quantity" Type="nvarchar(max)" />
           <Property Name="items_merchantId" Type="nvarchar(max)" />
           <Property Name="items_totalPrice_currency" Type="nvarchar(max)" />
@@ -1404,6 +1466,7 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="items_purchasePrice" Type="nvarchar(max)" />
           <Property Name="properties_value" Type="nvarchar(max)" />
           <Property Name="magaza" Type="nvarchar" MaxLength="10" />
+          <Property Name="xml" Type="bit" />
         </EntityType>
         <EntityType Name="tbl_siparisTy">
           <Key>
@@ -1853,6 +1916,19 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="commercial" Type="nvarchar(max)" />
           <Property Name="deliveredByService" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="email_verified_at" Type="datetime" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="remember_token" Type="nvarchar" MaxLength="100" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
         <Association Name="FK_tbl_altUrunler_tbl_urun">
           <End Role="tbl_urun" Type="Self.tbl_urun" Multiplicity="0..1" />
           <End Role="tbl_altUrunler" Type="Self.tbl_altUrunler" Multiplicity="*" />
@@ -2108,9 +2184,43 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="db_gulSistemModelStoreContainer">
+          <EntitySet Name="failed_jobs" EntityType="Self.failed_jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HbKayitBazliMuhasebeServisi" EntityType="Self.HbKayitBazliMuhasebeServisi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="iptalEdilenSiparisler" EntityType="Self.iptalEdilenSiparisler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="migrations" EntityType="Self.migrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personal_access_tokens" EntityType="Self.personal_access_tokens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="pictures" EntityType="Self.pictures" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="picturesAltUrun" EntityType="Self.picturesAltUrun" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
@@ -2134,9 +2244,9 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <EntitySet Name="tbl_digerUrunSaticiNm" EntityType="Self.tbl_digerUrunSaticiNm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_durum" EntityType="Self.tbl_durum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_fatura" EntityType="Self.tbl_fatura" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_guncelFiyat" EntityType="Self.tbl_guncelFiyat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_hacim" EntityType="Self.tbl_hacim" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_hizliEkleHb" EntityType="Self.tbl_hizliEkleHb" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_iptalEdilenTy" EntityType="Self.tbl_iptalEdilenTy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_kategori" EntityType="Self.tbl_kategori" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_kategorilerHb" EntityType="Self.tbl_kategorilerHb" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_kategoriTy" EntityType="Self.tbl_kategoriTy" Schema="dbo" store:Type="Tables" />
@@ -2177,6 +2287,14 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <EntitySet Name="TeslimEdilemeyenSiparisler" EntityType="Self.TeslimEdilemeyenSiparisler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeslimEdilenSiparisler" EntityType="Self.TeslimEdilenSiparisler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tyOrders" EntityType="Self.tyOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="password_resets" EntityType="Self.password_resets" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [password_resets].[email] AS [email], 
+    [password_resets].[token] AS [token], 
+    [password_resets].[created_at] AS [created_at]
+    FROM [dbo].[password_resets] AS [password_resets]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_tbl_altUrunler_tbl_urun" Association="Self.FK_tbl_altUrunler_tbl_urun">
             <End Role="tbl_urun" EntitySet="tbl_urun" />
             <End Role="tbl_altUrunler" EntitySet="tbl_altUrunler" />
@@ -2263,6 +2381,18 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_gulSistemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="failed_jobs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uuid" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="connection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="queue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="failed_at" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         <EntityType Name="HbKayitBazliMuhasebeServisi">
           <Key>
             <PropertyRef Name="transactionType" />
@@ -2311,6 +2441,29 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="quantity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="sku" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="merchantSku" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="migration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="migration1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="batch" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="personal_access_tokens">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tokenable_type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tokenable_id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="abilities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="last_used_at" Type="DateTime" Precision="3" />
+          <Property Name="expires_at" Type="DateTime" Precision="3" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="picture">
           <Key>
@@ -2933,7 +3086,11 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="fark" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="endusukfiyat" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="baslangıcfiyat" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="farkdurum" Type="Boolean" />
+          <Property Name="Farkdurum" Type="Boolean" />
+          <Property Name="durum" Type="Boolean" />
+          <Property Name="GuncelFiyat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="elleotomatik" Type="Boolean" />
+          <Property Name="islemsayisi" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_buyboxTy">
           <Key>
@@ -3120,18 +3277,6 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <NavigationProperty Name="tbl_musteri" Relationship="Self.FK_tbl_fatura_tbl_firma" FromRole="tbl_fatura" ToRole="tbl_musteri" />
           <NavigationProperty Name="tbl_urun" Relationship="Self.FK_tbl_urun_tbl_fatura" FromRole="tbl_fatura" ToRole="tbl_urun" />
         </EntityType>
-        <EntityType Name="tbl_guncelFiyat">
-          <Key>
-            <PropertyRef Name="gFiyat_id" />
-          </Key>
-          <Property Name="gFiyat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="urunSku" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="urun_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="guncelFiyat" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="pazarYeri" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="durum" Type="Boolean" />
-          <Property Name="farkdurum" Type="Boolean" />
-        </EntityType>
         <EntityType Name="tbl_hacim">
           <Key>
             <PropertyRef Name="hacim_id" />
@@ -3149,6 +3294,20 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="Barcode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Price" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Stock" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_iptalEdilenTy">
+          <Key>
+            <PropertyRef Name="iptalEdilenSiparisler_id" />
+          </Key>
+          <Property Name="iptalEdilenSiparisler_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="customerFirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cargoTrackingNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cargoProviderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="orderDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="totalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_kategori">
           <Key>
@@ -3228,6 +3387,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="sku" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fiyat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="bilgi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="count" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="tarih" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tbl_magazaFiyatlari">
@@ -3498,6 +3658,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="basilmadurumu" Type="Boolean" />
           <Property Name="adres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="kayittarihi" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tbl_picture">
           <Key>
@@ -3582,6 +3743,10 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="Image5" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="renk_variant_property" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ebatlar_variant_property" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="markaTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="kategoriTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="listeFiyatiTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="satisFiyatiTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_productsAltUrunHb">
           <Key>
@@ -3603,7 +3768,11 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="stock" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="renk_variant_property" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ebatlar_variant_property" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="durum" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="durum" Type="Boolean" />
+          <Property Name="markaTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="kategoriTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="listeFiyatiTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="satisFiyatiTy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_renk">
           <Key>
@@ -3627,7 +3796,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="items_sku" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="items_orderId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="items_orderNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="items_orderDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="items_orderDate" Type="DateTime" Precision="3" />
           <Property Name="items_quantity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="items_merchantId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="items_totalPrice_currency" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -3684,6 +3853,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="items_purchasePrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="properties_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="magaza" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="xml" Type="Boolean" />
         </EntityType>
         <EntityType Name="tbl_siparisTy">
           <Key>
@@ -4141,6 +4311,28 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="commercial" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="deliveredByService" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email_verified_at" Type="DateTime" Precision="3" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="remember_token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="password_resets">
+          <Key>
+            <PropertyRef Name="email" />
+            <PropertyRef Name="token" />
+          </Key>
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+        </EntityType>
         <Association Name="FK_tbl_kategori_tbl_altKategori">
           <End Role="tbl_altKategori" Type="Self.tbl_altKategori" Multiplicity="0..1" />
           <End Role="tbl_kategori" Type="Self.tbl_kategori" Multiplicity="*" />
@@ -4382,8 +4574,11 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="db_gulSistemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="failed_jobs" EntityType="Self.failed_jobs" />
           <EntitySet Name="HbKayitBazliMuhasebeServisis" EntityType="Self.HbKayitBazliMuhasebeServisi" />
           <EntitySet Name="iptalEdilenSiparislers" EntityType="Self.iptalEdilenSiparisler" />
+          <EntitySet Name="migrations" EntityType="Self.migration" />
+          <EntitySet Name="personal_access_tokens" EntityType="Self.personal_access_tokens" />
           <EntitySet Name="pictures" EntityType="Self.picture" />
           <EntitySet Name="picturesAltUruns" EntityType="Self.picturesAltUrun" />
           <EntitySet Name="products" EntityType="Self.product" />
@@ -4407,9 +4602,9 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <EntitySet Name="tbl_digerUrunSaticiNm" EntityType="Self.tbl_digerUrunSaticiNm" />
           <EntitySet Name="tbl_durum" EntityType="Self.tbl_durum" />
           <EntitySet Name="tbl_fatura" EntityType="Self.tbl_fatura" />
-          <EntitySet Name="tbl_guncelFiyat" EntityType="Self.tbl_guncelFiyat" />
           <EntitySet Name="tbl_hacim" EntityType="Self.tbl_hacim" />
           <EntitySet Name="tbl_hizliEkleHb" EntityType="Self.tbl_hizliEkleHb" />
+          <EntitySet Name="tbl_iptalEdilenTy" EntityType="Self.tbl_iptalEdilenTy" />
           <EntitySet Name="tbl_kategori" EntityType="Self.tbl_kategori" />
           <EntitySet Name="tbl_kategorilerHb" EntityType="Self.tbl_kategorilerHb" />
           <EntitySet Name="tbl_kategoriTy" EntityType="Self.tbl_kategoriTy" />
@@ -4450,6 +4645,8 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <EntitySet Name="TeslimEdilemeyenSiparislers" EntityType="Self.TeslimEdilemeyenSiparisler" />
           <EntitySet Name="TeslimEdilenSiparislers" EntityType="Self.TeslimEdilenSiparisler" />
           <EntitySet Name="tyOrders" EntityType="Self.tyOrder" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="password_resets" EntityType="Self.password_resets" />
           <AssociationSet Name="FK_tbl_kategori_tbl_altKategori" Association="Self.FK_tbl_kategori_tbl_altKategori">
             <End Role="tbl_altKategori" EntitySet="tbl_altKategori" />
             <End Role="tbl_kategori" EntitySet="tbl_kategori" />
@@ -4530,13 +4727,67 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
             <End Role="tbl_price" EntitySet="tbl_price" />
             <End Role="tbl_product" EntitySet="tbl_product" />
           </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_gulSistemModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_gulSistemModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="db_gulSistemModelStoreContainer" CdmEntityContainer="db_gulSistemEntities">
+          <EntitySetMapping Name="failed_jobs">
+            <EntityTypeMapping TypeName="db_gulSistemModel.failed_jobs">
+              <MappingFragment StoreEntitySet="failed_jobs">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uuid" ColumnName="uuid" />
+                <ScalarProperty Name="connection" ColumnName="connection" />
+                <ScalarProperty Name="queue" ColumnName="queue" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="exception" ColumnName="exception" />
+                <ScalarProperty Name="failed_at" ColumnName="failed_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="HbKayitBazliMuhasebeServisis">
             <EntityTypeMapping TypeName="db_gulSistemModel.HbKayitBazliMuhasebeServisi">
               <MappingFragment StoreEntitySet="HbKayitBazliMuhasebeServisi">
@@ -4580,6 +4831,31 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="sku" ColumnName="sku" />
                 <ScalarProperty Name="merchantSku" ColumnName="merchantSku" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="migrations">
+            <EntityTypeMapping TypeName="db_gulSistemModel.migration">
+              <MappingFragment StoreEntitySet="migrations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="migration1" ColumnName="migration" />
+                <ScalarProperty Name="batch" ColumnName="batch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personal_access_tokens">
+            <EntityTypeMapping TypeName="db_gulSistemModel.personal_access_tokens">
+              <MappingFragment StoreEntitySet="personal_access_tokens">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tokenable_type" ColumnName="tokenable_type" />
+                <ScalarProperty Name="tokenable_id" ColumnName="tokenable_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="abilities" ColumnName="abilities" />
+                <ScalarProperty Name="last_used_at" ColumnName="last_used_at" />
+                <ScalarProperty Name="expires_at" ColumnName="expires_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5210,7 +5486,11 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="fark" ColumnName="fark" />
                 <ScalarProperty Name="endusukfiyat" ColumnName="endusukfiyat" />
                 <ScalarProperty Name="baslangıcfiyat" ColumnName="baslangıcfiyat" />
-                <ScalarProperty Name="farkdurum" ColumnName="farkdurum" />
+                <ScalarProperty Name="Farkdurum" ColumnName="Farkdurum" />
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="GuncelFiyat" ColumnName="GuncelFiyat" />
+                <ScalarProperty Name="elleotomatik" ColumnName="elleotomatik" />
+                <ScalarProperty Name="islemsayisi" ColumnName="islemsayisi" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5397,19 +5677,6 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_guncelFiyat">
-            <EntityTypeMapping TypeName="db_gulSistemModel.tbl_guncelFiyat">
-              <MappingFragment StoreEntitySet="tbl_guncelFiyat">
-                <ScalarProperty Name="gFiyat_id" ColumnName="gFiyat_id" />
-                <ScalarProperty Name="urunSku" ColumnName="urunSku" />
-                <ScalarProperty Name="urun_id" ColumnName="urun_id" />
-                <ScalarProperty Name="guncelFiyat" ColumnName="guncelFiyat" />
-                <ScalarProperty Name="pazarYeri" ColumnName="pazarYeri" />
-                <ScalarProperty Name="durum" ColumnName="durum" />
-                <ScalarProperty Name="farkdurum" ColumnName="farkdurum" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_hacim">
             <EntityTypeMapping TypeName="db_gulSistemModel.tbl_hacim">
               <MappingFragment StoreEntitySet="tbl_hacim">
@@ -5427,6 +5694,21 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_iptalEdilenTy">
+            <EntityTypeMapping TypeName="db_gulSistemModel.tbl_iptalEdilenTy">
+              <MappingFragment StoreEntitySet="tbl_iptalEdilenTy">
+                <ScalarProperty Name="iptalEdilenSiparisler_id" ColumnName="iptalEdilenSiparisler_id" />
+                <ScalarProperty Name="orderNumber" ColumnName="orderNumber" />
+                <ScalarProperty Name="customerFirstName" ColumnName="customerFirstName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cargoTrackingNumber" ColumnName="cargoTrackingNumber" />
+                <ScalarProperty Name="cargoProviderName" ColumnName="cargoProviderName" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5508,6 +5790,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="sku" ColumnName="sku" />
                 <ScalarProperty Name="fiyat" ColumnName="fiyat" />
                 <ScalarProperty Name="bilgi" ColumnName="bilgi" />
+                <ScalarProperty Name="count" ColumnName="count" />
                 <ScalarProperty Name="tarih" ColumnName="tarih" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -5784,6 +6067,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="basilmadurumu" ColumnName="basilmadurumu" />
                 <ScalarProperty Name="adres" ColumnName="adres" />
+                <ScalarProperty Name="kayittarihi" ColumnName="kayittarihi" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5867,6 +6151,10 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="Image5" ColumnName="Image5" />
                 <ScalarProperty Name="renk_variant_property" ColumnName="renk_variant_property" />
                 <ScalarProperty Name="ebatlar_variant_property" ColumnName="ebatlar_variant_property" />
+                <ScalarProperty Name="markaTy" ColumnName="markaTy" />
+                <ScalarProperty Name="kategoriTy" ColumnName="kategoriTy" />
+                <ScalarProperty Name="listeFiyatiTy" ColumnName="listeFiyatiTy" />
+                <ScalarProperty Name="satisFiyatiTy" ColumnName="satisFiyatiTy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5890,6 +6178,10 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="renk_variant_property" ColumnName="renk_variant_property" />
                 <ScalarProperty Name="ebatlar_variant_property" ColumnName="ebatlar_variant_property" />
                 <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="markaTy" ColumnName="markaTy" />
+                <ScalarProperty Name="kategoriTy" ColumnName="kategoriTy" />
+                <ScalarProperty Name="listeFiyatiTy" ColumnName="listeFiyatiTy" />
+                <ScalarProperty Name="satisFiyatiTy" ColumnName="satisFiyatiTy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5972,6 +6264,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="items_purchasePrice" ColumnName="items_purchasePrice" />
                 <ScalarProperty Name="properties_value" ColumnName="properties_value" />
                 <ScalarProperty Name="magaza" ColumnName="magaza" />
+                <ScalarProperty Name="xml" ColumnName="xml" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6438,6 +6731,53 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="db_gulSistemModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="email_verified_at" ColumnName="email_verified_at" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="remember_token" ColumnName="remember_token" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="password_resets">
+            <EntityTypeMapping TypeName="db_gulSistemModel.password_resets">
+              <MappingFragment StoreEntitySet="password_resets">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="db_gulSistemModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="db_gulSistemModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="db_gulSistemModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="db_gulSistemModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_gulSistemModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="db_gulSistemModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_gulSistemModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="db_gulSistemModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="db_gulSistemModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

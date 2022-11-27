@@ -12,13 +12,10 @@ namespace DatabaseToXml
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_logbuybux
+    public partial class password_resets
     {
-        public int id { get; set; }
-        public string sku { get; set; }
-        public string fiyat { get; set; }
-        public string bilgi { get; set; }
-        public string count { get; set; }
-        public Nullable<System.DateTime> tarih { get; set; }
+        public string email { get; set; }
+        public string token { get; set; }
+        public Nullable<System.DateTime> created_at { get; set; }
     }
 }

@@ -30,6 +30,10 @@ namespace DatabaseToXml
         public string stock { get; set; }
         public string renk_variant_property { get; set; }
         public string ebatlar_variant_property { get; set; }
-        public byte[] durum { get; set; }
+        public Nullable<bool> durum { get; set; }
+        public string markaTy { get; set; }
+        public string kategoriTy { get; set; }
+        public string listeFiyatiTy { get; set; }
+        public string satisFiyatiTy { get; set; }
     }
 }

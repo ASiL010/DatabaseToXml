@@ -59,232 +59,253 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="failed_jobs.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GulSistem.Context.cs">
+    <Compile Include="gulsistem.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GulSistem.Context.tt</DependentUpon>
+      <DependentUpon>gulsistem.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="GulSistem.cs">
+    <Compile Include="gulsistem.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
-    <Compile Include="GulSistem.Designer.cs">
+    <Compile Include="gulsistem.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GulSistem.edmx</DependentUpon>
+      <DependentUpon>gulsistem.edmx</DependentUpon>
     </Compile>
     <Compile Include="HbKayitBazliMuhasebeServisi.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="iptalEdilenSiparisler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="migration.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="password_resets.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="personal_access_tokens.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="picture.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="picturesAltUrun.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="product.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="product_description.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagram.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_agirlik.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_altKategori.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_altKategority.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_altUrunler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_buybox.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_buyboxTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_cargo.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_cikis.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_customer.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerSatici.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerSaticiFiyat.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerSaticiResim.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerSaticiTagList.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerSaticiUrun.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_digerUrunSaticiNm.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_durum.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_fatura.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tbl_guncelFiyat.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_hacim.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_hizliEkleHb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_iptalEdilenTy.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_kategori.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_kategorilerHb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_kategoriTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_kullanici.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_kullohbuybox.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_log.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_logbuybux.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_magazaFiyatlari.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_marka.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_markaTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_model.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_musteri.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_musteriler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_numara.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_order.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_ortakSiparis.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_paketTemp.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_paketTempTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_picture.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_price.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_product.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_productHb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_productsAltUrunHb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_renk.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_siparis.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_siparisTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_tyLink.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urun.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urunHb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urunHbb.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_Urunler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urunlertolink.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urunsku.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_uruntosku.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_urunTy.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_varyant.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_çop.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_ürünkargoteslim.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="TeslimEdilemeyenSiparisler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="TeslimEdilenSiparisler.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="tyOrder.cs">
-      <DependentUpon>GulSistem.tt</DependentUpon>
+      <DependentUpon>gulsistem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user.cs">
+      <DependentUpon>gulsistem.tt</DependentUpon>
     </Compile>
     <Compile Include="XmlMerger.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -299,12 +320,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EntityDeploy Include="GulSistem.edmx">
+    <None Include=".editorconfig" />
+    <EntityDeploy Include="gulsistem.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GulSistem.Designer.cs</LastGenOutput>
+      <LastGenOutput>gulsistem.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="GulSistem.edmx.diagram">
-      <DependentUpon>GulSistem.edmx</DependentUpon>
+    <None Include="gulsistem.edmx.diagram">
+      <DependentUpon>gulsistem.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -321,19 +343,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GulSistem.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GulSistem.edmx</DependentUpon>
-      <LastGenOutput>GulSistem.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="GulSistem.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GulSistem.edmx</DependentUpon>
-      <LastGenOutput>GulSistem.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="gulsistem.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>gulsistem.edmx</DependentUpon>
+      <LastGenOutput>gulsistem.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="gulsistem.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>gulsistem.edmx</DependentUpon>
+      <LastGenOutput>gulsistem.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

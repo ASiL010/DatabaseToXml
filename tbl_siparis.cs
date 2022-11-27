@@ -25,7 +25,7 @@ namespace DatabaseToXml
         public string items_sku { get; set; }
         public string items_orderId { get; set; }
         public string items_orderNumber { get; set; }
-        public string items_orderDate { get; set; }
+        public Nullable<System.DateTime> items_orderDate { get; set; }
         public string items_quantity { get; set; }
         public string items_merchantId { get; set; }
         public string items_totalPrice_currency { get; set; }
@@ -82,5 +82,6 @@ namespace DatabaseToXml
         public string items_purchasePrice { get; set; }
         public string properties_value { get; set; }
         public string magaza { get; set; }
+        public Nullable<bool> xml { get; set; }
     }
 }

@@ -33,6 +33,10 @@ namespace DatabaseToXml
         public Nullable<decimal> fark { get; set; }
         public Nullable<decimal> endusukfiyat { get; set; }
         public Nullable<decimal> baslangıcfiyat { get; set; }
-        public Nullable<bool> farkdurum { get; set; }
+        public Nullable<bool> Farkdurum { get; set; }
+        public Nullable<bool> durum { get; set; }
+        public Nullable<decimal> GuncelFiyat { get; set; }
+        public Nullable<bool> elleotomatik { get; set; }
+        public Nullable<int> islemsayisi { get; set; }
     }
 }

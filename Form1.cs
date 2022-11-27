@@ -29,7 +29,7 @@ namespace DatabaseToXml
         #endregion
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
         Thread SatışSipariş;
-        public static string savingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\LOGO_XML_FİLES";
+        public static string savingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\LOGO_XML_FILES";
         string SeçilenSiparişNumarası="";
         public Form1()
         {
@@ -39,15 +39,15 @@ namespace DatabaseToXml
         private void Form1_Load(object sender, EventArgs e)
         {
             SatışSipariş = new Thread(SatıŞSiparisiKaydetBaslaTread);
+            
+            
+            
             Control.CheckForIllegalCrossThreadCalls = false;
             if (!Directory.Exists(savingPath))
             {
                 System.IO.Directory.CreateDirectory(savingPath);
 
             }
-
-
-
         }
         private void KaydetBasla_Clk(object sender, EventArgs e)
         {
@@ -194,8 +194,8 @@ namespace DatabaseToXml
                     SecilenIleKaydet_btn.Enabled = false;
                     db_gulSistemEntities gulsistem = new db_gulSistemEntities();
                     var siparis = gulsistem.tbl_siparis;
-
-                    var query = new string[] { ",", "" }.ToList();
+                    
+                    var query = (new string[] { "a"}).ToList();
                     XDocument CariCombined = new XDocument(new XElement("AR_APS"));
                     XDocument SatısCombined = new XDocument(new XElement("SALES_ORDERS"));
                     XDocument MaterialCombined = new XDocument(new XElement("ITEMS"));
@@ -203,25 +203,17 @@ namespace DatabaseToXml
 
                     string[] orderNumbers = new string[0];
                     if (Pnl_secilenSiparis.Visible)
-                        query = siparis.Select(b => b.items_orderNumber).Where(c => c == SeçilenSiparişNumarası).Distinct().ToList();
+                        query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @1", new SqlParameter("@1",SeçilenSiparişNumarası)).ToList();
                     else
-                        query = siparis.Select(b => b.items_orderNumber).Distinct().ToList();
-
+                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  items_orderDate >= @a and items_orderDate <= @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
+                 
                     foreach (var item in query)
                     {
-
+                       
                         var need = siparis.Select(c => c).Where(k => k.items_orderNumber == item).ToList();
-
                         var V = need[0];
-                        if (!Pnl_secilenSiparis.Visible)
-                        {
-                        if (!DateBetweenPickers(V.items_orderDate) )
-                        {
-                            progressBar1.Maximum = query.Count();
-                            progressBar1.Value++;
-                            continue;
-                        }
-                        }
+                      //  MessageBox.Show(V.items_orderDate.ToString());
+                        
                         #region Cari Hesaplar
 
                         #region AllNeededVaribles
@@ -462,10 +454,10 @@ namespace DatabaseToXml
                                     #region SatişSiparişi_DOC
                                 }
                             
-                                string orderDATEFİX = DateFixes(V.items_orderDate.Split(' ')[0]);
+                                string orderDATEFİX = DateFixes(V.items_orderDate.ToString().Split(' ')[0]);
 
 
-                                string[] saatDizisi = V.items_orderDate.Split(' ')[1].Split(':');
+                                string[] saatDizisi = V.items_orderDate.ToString().Split(' ')[1].Split(':');
                                 XElement transactions = new XElement("TRANSACTIONS");
                                 transactions.Add(a);
 
@@ -523,7 +515,10 @@ namespace DatabaseToXml
                         }
 
                     }
-                
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 finally
                 {
 
@@ -551,6 +546,24 @@ namespace DatabaseToXml
                 SatışSipariş.Start();
             if (sem.CurrentCount == 0) sem.Release();
 
+        }
+
+        private void KüçükDate_ValueChanged(object sender, EventArgs e)
+        {
+            db_gulSistemEntities gulsistem = new db_gulSistemEntities();
+            var siparis = gulsistem.tbl_siparis;
+            try
+            {
+          //      var c = gulsistem.Database.ExecuteSqlCommand("Insert into tbl_siparis (dddate) values (@a)", new SqlParameter("@a",KüçükDate.Value));
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message) ;
+        
+            }
+     
+        //    MessageBox.Show(BüyükDate.Value.ToString());
         }
     }
 

@@ -42,8 +42,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SecilenPanelineGit = new System.Windows.Forms.Button();
             this.Pnl_secilenSiparis = new System.Windows.Forms.Panel();
-            this.SecilenIleKaydet_btn = new System.Windows.Forms.Button();
             this.OncekineDon = new System.Windows.Forms.Button();
+            this.SecilenIleKaydet_btn = new System.Windows.Forms.Button();
             this.Pnl_secilenSiparis.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,10 +133,12 @@
             // 
             // KüçükDate
             // 
-            this.KüçükDate.Location = new System.Drawing.Point(97, 17);
+            this.KüçükDate.Location = new System.Drawing.Point(98, 18);
             this.KüçükDate.Name = "KüçükDate";
             this.KüçükDate.Size = new System.Drawing.Size(206, 22);
             this.KüçükDate.TabIndex = 16;
+            this.KüçükDate.Value = new System.DateTime(2022, 11, 27, 16, 50, 0, 0);
+            this.KüçükDate.ValueChanged += new System.EventHandler(this.KüçükDate_ValueChanged);
             // 
             // label3
             // 
@@ -179,6 +181,7 @@
             // 
             // Pnl_secilenSiparis
             // 
+            this.Pnl_secilenSiparis.BackColor = System.Drawing.Color.Turquoise;
             this.Pnl_secilenSiparis.Controls.Add(this.OncekineDon);
             this.Pnl_secilenSiparis.Controls.Add(this.SecilenIleKaydet_btn);
             this.Pnl_secilenSiparis.Controls.Add(this.SelectedOrderNumber);
@@ -188,16 +191,6 @@
             this.Pnl_secilenSiparis.Size = new System.Drawing.Size(454, 309);
             this.Pnl_secilenSiparis.TabIndex = 21;
             this.Pnl_secilenSiparis.Visible = false;
-            // 
-            // SecilenIleKaydet_btn
-            // 
-            this.SecilenIleKaydet_btn.Location = new System.Drawing.Point(22, 188);
-            this.SecilenIleKaydet_btn.Name = "SecilenIleKaydet_btn";
-            this.SecilenIleKaydet_btn.Size = new System.Drawing.Size(213, 118);
-            this.SecilenIleKaydet_btn.TabIndex = 15;
-            this.SecilenIleKaydet_btn.Text = "Cari Sipariş ve Malzemeyi Getir";
-            this.SecilenIleKaydet_btn.UseVisualStyleBackColor = true;
-            this.SecilenIleKaydet_btn.Click += new System.EventHandler(this.SecilenIleKaydet_btn_Click);
             // 
             // OncekineDon
             // 
@@ -209,12 +202,22 @@
             this.OncekineDon.UseVisualStyleBackColor = true;
             this.OncekineDon.Click += new System.EventHandler(this.OncekineDon_Click);
             // 
+            // SecilenIleKaydet_btn
+            // 
+            this.SecilenIleKaydet_btn.Location = new System.Drawing.Point(22, 188);
+            this.SecilenIleKaydet_btn.Name = "SecilenIleKaydet_btn";
+            this.SecilenIleKaydet_btn.Size = new System.Drawing.Size(213, 118);
+            this.SecilenIleKaydet_btn.TabIndex = 15;
+            this.SecilenIleKaydet_btn.Text = "Cari Sipariş ve Malzemeyi Getir";
+            this.SecilenIleKaydet_btn.UseVisualStyleBackColor = true;
+            this.SecilenIleKaydet_btn.Click += new System.EventHandler(this.SecilenIleKaydet_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.MediumOrchid;
-            this.ClientSize = new System.Drawing.Size(459, 409);
+            this.BackColor = System.Drawing.Color.DarkCyan;
+            this.ClientSize = new System.Drawing.Size(1024, 567);
             this.Controls.Add(this.Pnl_secilenSiparis);
             this.Controls.Add(this.SecilenPanelineGit);
             this.Controls.Add(this.progressBar1);

@@ -12,13 +12,16 @@ namespace DatabaseToXml
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_logbuybux
+    public partial class tbl_iptalEdilenTy
     {
-        public int id { get; set; }
-        public string sku { get; set; }
-        public string fiyat { get; set; }
-        public string bilgi { get; set; }
-        public string count { get; set; }
-        public Nullable<System.DateTime> tarih { get; set; }
+        public int iptalEdilenSiparisler_id { get; set; }
+        public string orderNumber { get; set; }
+        public string customerFirstName { get; set; }
+        public string id { get; set; }
+        public string cargoTrackingNumber { get; set; }
+        public string cargoProviderName { get; set; }
+        public string orderDate { get; set; }
+        public string status { get; set; }
+        public string totalPrice { get; set; }
     }
 }

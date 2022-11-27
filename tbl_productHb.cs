@@ -35,5 +35,9 @@ namespace DatabaseToXml
         public string Image5 { get; set; }
         public string renk_variant_property { get; set; }
         public string ebatlar_variant_property { get; set; }
+        public string markaTy { get; set; }
+        public string kategoriTy { get; set; }
+        public string listeFiyatiTy { get; set; }
+        public string satisFiyatiTy { get; set; }
     }
 }

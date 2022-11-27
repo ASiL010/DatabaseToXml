@@ -12,13 +12,15 @@ namespace DatabaseToXml
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_logbuybux
+    public partial class user
     {
-        public int id { get; set; }
-        public string sku { get; set; }
-        public string fiyat { get; set; }
-        public string bilgi { get; set; }
-        public string count { get; set; }
-        public Nullable<System.DateTime> tarih { get; set; }
+        public long id { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
+        public Nullable<System.DateTime> email_verified_at { get; set; }
+        public string password { get; set; }
+        public string remember_token { get; set; }
+        public Nullable<System.DateTime> created_at { get; set; }
+        public Nullable<System.DateTime> updated_at { get; set; }
     }
 }

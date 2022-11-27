@@ -10,16 +10,10 @@
 namespace DatabaseToXml
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tbl_guncelFiyat
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int gFiyat_id { get; set; }
-        public string urunSku { get; set; }
-        public string urun_id { get; set; }
-        public Nullable<decimal> guncelFiyat { get; set; }
-        public string pazarYeri { get; set; }
-        public Nullable<bool> durum { get; set; }
-        public Nullable<bool> farkdurum { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

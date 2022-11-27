@@ -12,13 +12,14 @@ namespace DatabaseToXml
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_logbuybux
+    public partial class failed_jobs
     {
-        public int id { get; set; }
-        public string sku { get; set; }
-        public string fiyat { get; set; }
-        public string bilgi { get; set; }
-        public string count { get; set; }
-        public Nullable<System.DateTime> tarih { get; set; }
+        public long id { get; set; }
+        public string uuid { get; set; }
+        public string connection { get; set; }
+        public string queue { get; set; }
+        public string payload { get; set; }
+        public string exception { get; set; }
+        public System.DateTime failed_at { get; set; }
     }
 }
