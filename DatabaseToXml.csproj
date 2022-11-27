@@ -325,6 +325,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>gulsistem.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="gulsistem.edmx.diagram">
       <DependentUpon>gulsistem.edmx</DependentUpon>
     </None>
@@ -338,9 +339,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

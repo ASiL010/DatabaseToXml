@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
@@ -203,9 +204,9 @@ namespace DatabaseToXml
 
                     string[] orderNumbers = new string[0];
                     if (Pnl_secilenSiparis.Visible)
-                        query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @1", new SqlParameter("@1",SeçilenSiparişNumarası)).ToList();
+                        query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @c", new SqlParameter("@c",SeçilenSiparişNumarası)).ToList();
                     else
-                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  items_orderDate >= @a and items_orderDate <= @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
+                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate <= @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
                  
                     foreach (var item in query)
                     {
@@ -235,9 +236,7 @@ namespace DatabaseToXml
                             if (V.items_invoice_taxNumber == "")
                             {
 
-
-
-                                for (int z = 0; z < CODE.Length; z++)//verinin olup olmadığını da kontrol ediyor
+                            for (int z = 0; z < CODE.Length; z++)//verinin olup olmadığını da kontrol ediyor
                                 {
 
 
@@ -410,7 +409,8 @@ namespace DatabaseToXml
                                                   )
                                          );
                                         MaterialDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
-                                        System.IO.Directory.CreateDirectory(savingPath + "\\Materials");
+                              
+                                System.IO.Directory.CreateDirectory(savingPath + "\\Materials");
                                         MaterialDocument.Save(savingPath + "\\Materials\\" + SKUasMasterCode[j] + ".xml");
 
                                         CombineDocuments(MaterialCombined, MaterialDocument);
@@ -419,7 +419,7 @@ namespace DatabaseToXml
                                     catch (Exception EX)
                                     {
                                     }
-
+                                    
 
                                     //-----------------------------
 
@@ -493,9 +493,11 @@ namespace DatabaseToXml
                                 SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + V.items_orderNumber + ".xml");
 
                                 CombineDocuments(SatısCombined, SatışlarDocument);
-                                #endregion
-                            
-                            progressBar1.Maximum = query.Count();
+                        #endregion
+
+
+                        gulsistem.Database.ExecuteSqlCommand("Update tbl_siparis SET xmlYapildi = 1 where items_orderNumber = '" + V.items_orderNumber + "'");
+                        progressBar1.Maximum = query.Count();
                             progressBar1.Value++;
                         }
                         if (SatısCombined.Elements().Nodes().Count() > 1)
@@ -515,10 +517,7 @@ namespace DatabaseToXml
                         }
 
                     }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                
                 finally
                 {
 

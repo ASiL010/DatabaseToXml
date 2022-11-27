@@ -1466,7 +1466,7 @@ warning 6013: The table/view 'db_gulSistem.dbo.tbl_ozellikler' does not have a p
           <Property Name="items_purchasePrice" Type="nvarchar(max)" />
           <Property Name="properties_value" Type="nvarchar(max)" />
           <Property Name="magaza" Type="nvarchar" MaxLength="10" />
-          <Property Name="xml" Type="bit" />
+          <Property Name="xmlYapildi" Type="bit" />
         </EntityType>
         <EntityType Name="tbl_siparisTy">
           <Key>
@@ -3853,7 +3853,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
           <Property Name="items_purchasePrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="properties_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="magaza" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="xml" Type="Boolean" />
+          <Property Name="xmlYapildi" Type="Boolean" />
         </EntityType>
         <EntityType Name="tbl_siparisTy">
           <Key>
@@ -6264,7 +6264,7 @@ error 6004: The table 'db_gulSistem.dbo.tbl_ozellikler' is referenced by a relat
                 <ScalarProperty Name="items_purchasePrice" ColumnName="items_purchasePrice" />
                 <ScalarProperty Name="properties_value" ColumnName="properties_value" />
                 <ScalarProperty Name="magaza" ColumnName="magaza" />
-                <ScalarProperty Name="xml" ColumnName="xml" />
+                <ScalarProperty Name="xmlYapildi" ColumnName="xmlYapildi" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

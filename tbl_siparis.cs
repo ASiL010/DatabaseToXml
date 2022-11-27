@@ -82,6 +82,6 @@ namespace DatabaseToXml
         public string items_purchasePrice { get; set; }
         public string properties_value { get; set; }
         public string magaza { get; set; }
-        public Nullable<bool> xml { get; set; }
+        public Nullable<bool> xmlYapildi { get; set; }
     }
 }
