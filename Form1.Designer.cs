@@ -138,7 +138,6 @@
             this.KüçükDate.Size = new System.Drawing.Size(206, 22);
             this.KüçükDate.TabIndex = 16;
             this.KüçükDate.Value = new System.DateTime(2022, 11, 27, 16, 50, 0, 0);
-            this.KüçükDate.ValueChanged += new System.EventHandler(this.KüçükDate_ValueChanged);
             // 
             // label3
             // 
@@ -217,7 +216,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkCyan;
-            this.ClientSize = new System.Drawing.Size(1024, 567);
+            this.ClientSize = new System.Drawing.Size(465, 414);
             this.Controls.Add(this.Pnl_secilenSiparis);
             this.Controls.Add(this.SecilenPanelineGit);
             this.Controls.Add(this.progressBar1);

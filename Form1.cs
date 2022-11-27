@@ -546,24 +546,6 @@ namespace DatabaseToXml
             if (sem.CurrentCount == 0) sem.Release();
 
         }
-
-        private void KüçükDate_ValueChanged(object sender, EventArgs e)
-        {
-            db_gulSistemEntities gulsistem = new db_gulSistemEntities();
-            var siparis = gulsistem.tbl_siparis;
-            try
-            {
-          //      var c = gulsistem.Database.ExecuteSqlCommand("Insert into tbl_siparis (dddate) values (@a)", new SqlParameter("@a",KüçükDate.Value));
-
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message) ;
-        
-            }
-     
-        //    MessageBox.Show(BüyükDate.Value.ToString());
-        }
     }
 
 
