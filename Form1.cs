@@ -206,8 +206,8 @@ namespace DatabaseToXml
                     if (Pnl_secilenSiparis.Visible)
                         query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @c", new SqlParameter("@c",SeçilenSiparişNumarası)).ToList();
                     else
-                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate <= @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
-                 
+                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate < @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
+                //    MessageBox.Show(KüçükDate.Value.Date.ToString());
                     foreach (var item in query)
                     {
                        
@@ -455,9 +455,9 @@ namespace DatabaseToXml
                                 }
                             
                                 string orderDATEFİX = DateFixes(V.items_orderDate.ToString().Split(' ')[0]);
+                   
 
-
-                                string[] saatDizisi = V.items_orderDate.ToString().Split(' ')[1].Split(':');
+                        string[] saatDizisi = V.items_orderDate.ToString().Split(' ')[1].Split(':');
                                 XElement transactions = new XElement("TRANSACTIONS");
                                 transactions.Add(a);
 
