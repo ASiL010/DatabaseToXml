@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace DatabaseToXml
+namespace Gülsistem_V8.xml
 {
     internal class XmlMerger
     {
@@ -17,40 +17,40 @@ namespace DatabaseToXml
         private void InitializeOpenFileDialog()
         {
             openFileDialog.Filter =
-                "Xml Dosyaları (*.xml)|*.xml"; 
-                //+"All files (*.*)|*.*";
+                "Xml Dosyaları (*.xml)|*.xml";
+            //+"All files (*.*)|*.*";
 
             // Allow the user to select multiple images.
             openFileDialog.Multiselect = true;
             openFileDialog.Title = "Birleştirelecek Xml Dosyalarını Seçiniz";
         }
 
-        public  void MergeMyXmls(string birleştirmeİsmi)
+        public void MergeMyXmls(string birleştirmeİsmi)
         {
             InitializeOpenFileDialog();
             DialogResult dr = openFileDialog.ShowDialog();
             if (dr == DialogResult.OK)
             {
                 int i = 0;
-                foreach (String file in openFileDialog.FileNames)
+                foreach (string file in openFileDialog.FileNames)
                 {
                     try
                     {
-                        if (i==0)
+                        if (i == 0)
                         {
-                             xmlDocument = XDocument.Load(file);
-                             element = xmlDocument.Elements().FirstOrDefault();
+                            xmlDocument = XDocument.Load(file);
+                            element = xmlDocument.Elements().FirstOrDefault();
 
                             i++;
                         }
                         else
                         {
-                             xmlDocument2 = XDocument.Load(file);
-                             element2 = xmlDocument2.Elements().FirstOrDefault();
+                            xmlDocument2 = XDocument.Load(file);
+                            element2 = xmlDocument2.Elements().FirstOrDefault();
 
                             element.Add(element2.Nodes());
                         }
-                    
+
                     }
                     catch (SecurityException ex)
                     {
@@ -63,12 +63,12 @@ namespace DatabaseToXml
                 }
                 xmlDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                 //MessageBox.Show(element.Name.ToString());
-                if (element.Name.ToString()== "AR_APS")
+                if (element.Name.ToString() == "AR_APS")
                 {
                     xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Cariler.xml");
 
                 }
-                else if(element.Name.ToString() == "SALES_ORDERS")
+                else if (element.Name.ToString() == "SALES_ORDERS")
                 {
                     xmlDocument.Save(Form1.savingPath + "\\" + DateTime.Now.ToString().Replace(".", "-").Replace(":", ".") + " Satışlar.xml");
 

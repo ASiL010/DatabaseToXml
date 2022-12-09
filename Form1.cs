@@ -14,8 +14,12 @@ using System.Xml;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Gülsistem_V8;
+using Microsoft.EntityFrameworkCore;
+using Gülsistem_V8.xml;
+using DatabaseToXml.Models;
 
-namespace DatabaseToXml
+namespace Gülsistem_V8.xml
 {
     public partial class Form1 : Form
     {
@@ -31,7 +35,7 @@ namespace DatabaseToXml
         static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
         Thread SatışSipariş;
         public static string savingPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\LOGO_XML_FILES";
-        string SeçilenSiparişNumarası="";
+        string? SeçilenSiparişNumarası="";
         public Form1()
         {
             InitializeComponent();
@@ -52,6 +56,7 @@ namespace DatabaseToXml
         }
         private void KaydetBasla_Clk(object sender, EventArgs e)
         {
+            progressBar1.Visible = true;
             if (SatışSipariş.ThreadState == System.Threading.ThreadState.Unstarted)
                 SatışSipariş.Start();
             if (sem.CurrentCount == 0) sem.Release();
@@ -71,22 +76,7 @@ namespace DatabaseToXml
             }
           
         }
-        public string[] stringArrayDoldur(string Sorgunuz)
-        {
-            baglanti = new SqlConnection(connectionString);
-            adapter = new SqlDataAdapter(Sorgunuz, baglanti);
-            ds = new DataSet();
-            baglanti.Open();
-            adapter.Fill(ds, Sorgunuz);
-            string[] ReturnValue = new string[ds.Tables[0].Rows.Count];
-
-            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            {
-                ReturnValue[i] = ds.Tables[0].Rows[i][0].ToString();
-            }
-            baglanti.Close();
-            return ReturnValue;
-        }
+       
 
         public long SaatFonksiyonu(string HH,string MM,string SS)
         {
@@ -120,11 +110,6 @@ namespace DatabaseToXml
                 }
         }
   
-        private void author_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/ASiL010");
-            author.LinkVisited = true;
-        }
         public string ReverseDate(string text)
         {
             char[] newText=new char[8];
@@ -193,47 +178,57 @@ namespace DatabaseToXml
                 {
                     KaydetBasla.Enabled = false;
                     SecilenIleKaydet_btn.Enabled = false;
-                    db_gulSistemEntities gulsistem = new db_gulSistemEntities();
-                    var siparis = gulsistem.tbl_siparis;
+                    db_gulSistemContext db = new db_gulSistemContext();
+                    var siparis = db.TblSiparis;
                     
                     var query = (new string[] { "a"}).ToList();
                     XDocument CariCombined = new XDocument(new XElement("AR_APS"));
                     XDocument SatısCombined = new XDocument(new XElement("SALES_ORDERS"));
                     XDocument MaterialCombined = new XDocument(new XElement("ITEMS"));
+                    CariCombined.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                    SatısCombined.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
+                    MaterialCombined.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
 
 
                     string[] orderNumbers = new string[0];
                     if (Pnl_secilenSiparis.Visible)
-                        query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @c", new SqlParameter("@c",SeçilenSiparişNumarası)).ToList();
+                    {
+                        // query = db.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber = @c", new SqlParameter("@c",SeçilenSiparişNumarası)).ToList();
+                         query = db.TblSiparis.Where(c => c.ItemsOrderNumber == SeçilenSiparişNumarası).Select(a=>a.ItemsOrderNumber).Distinct().ToList();
+                    }
                     else
-                       query = gulsistem.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate < @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
-                //    MessageBox.Show(KüçükDate.Value.Date.ToString());
+                    {
+                        // query = db.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate < @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
+                        query=  db.TblSiparis.Where(c => c.Xml == false && c.ItemsOrderDate >= KüçükDate.Value.Date && c.ItemsOrderDate < BüyükDate.Value.AddDays(1).Date).Select(a=>a.ItemsOrderNumber).Distinct().ToList();
+                    }
+
+
+                    //    MessageBox.Show(KüçükDate.Value.Date.ToString());
                     foreach (var item in query)
                     {
                        
-                        var need = siparis.Select(c => c).Where(k => k.items_orderNumber == item).ToList();
+                        var need = siparis.Select(c => c).Where(k => k.ItemsOrderNumber == item).ToList();
                         var V = need[0];
-                      //  MessageBox.Show(V.items_orderDate.ToString());
-                        
+                        //  MessageBox.Show(V.items_orderDate.ToString());
+
                         #region Cari Hesaplar
 
                         #region AllNeededVaribles
 
-                        string[] CODE = stringArrayDoldur("Select [logoid] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
-                            string[] TITLE = stringArrayDoldur("Select [Mad] FROM [db_gulSistem].[dbo].[tbl_musteriler] where [uniqid]='" + V.items_invoice_address_addressId + "'");
+                        string[] CODE = db.TblMusterilers.Where(c => c.Uniqid == V.ItemsInvoiceAddressAddressId).Select(a => a.Logoid).ToArray();
+                        string[] TITLE = db.TblMusterilers.Where(c => c.Uniqid == V.ItemsInvoiceAddressAddressId).Select(a => a.Mad).ToArray();
 
 
-
-                            string ADDRESS1 = V.items_invoice_address_address;
-                            string DISTRICT = V.items_invoice_address_district;
-                            string TOWN = V.items_invoice_address_town;
-                            string CITY = V.items_invoice_address_city;
-                            string TAX_OFFICE = V.items_invoice_taxOffice;
-                            string NAME = V.items_customerName;
+                        string ADDRESS1 = V.ItemsInvoiceAddressAddress;
+                            string DISTRICT = V.ItemsInvoiceAddressDistrict;
+                            string TOWN = V.ItemsInvoiceAddressTown;
+                            string CITY = V.ItemsInvoiceAddressCity;
+                            string TAX_OFFICE = V.ItemsInvoiceTaxOffice;
+                            string NAME = V.ItemsCustomerName;
                             #endregion
 
 
-                            if (V.items_invoice_taxNumber == "")
+                            if (V.ItemsInvoiceTaxNumber == "")
                             {
 
                             for (int z = 0; z < CODE.Length; z++)//verinin olup olmadığını da kontrol ediyor
@@ -255,7 +250,7 @@ namespace DatabaseToXml
                                           new XElement("COUNTRY_CODE", "TR"),
                                           new XElement("COUNTRY", "TÜRKİYE"),
                                            //postaKodu
-                                           new XElement("E_MAIL", V.items_invoice_address_email),
+                                           new XElement("E_MAIL", V.ItemsInvoiceAddressEmail),
                                             new XElement("CORRESP_LANG", "1"),
                                             new XElement("CREDIT_TYPE", "1"),
                                             new XElement("RISKFACT_CHQ", "1"),
@@ -275,7 +270,9 @@ namespace DatabaseToXml
                                             new XElement("EARCHIVE_SEND_MODE", 1),
                                             new XElement("INSTEAD_OF_DISPATCH", 1),
                                             new XElement("INVOICE_PRNT_CNT", 1),
-                                          new XElement("TCKNO", 11111111111),
+                                          new XElement("TCKNO", V.ItemsInvoiceTurkishIdentityNumber),
+                                            new XElement("POST_LABEL", CODE[0]),
+                                             new XElement("SENDER_LABEL", CODE[0]),
                                           new XElement("EARCHIVE_SEND_MODE", 1),
                                           new XElement("PROFILE_ID", 2),
                                            new XElement("ACCEPT_EINV", 1),
@@ -308,35 +305,49 @@ namespace DatabaseToXml
                                              new XElement("CODE", CODE[0]),
                                              new XElement("TITLE", TITLE[0]),
                                              new XElement("ADDRESS1", ADDRESS1),
-                                             new XElement("TOWN_CODE", "TR"),
-                                             new XElement("DISTRICT", DISTRICT),
+                                             //new XElement("TOWN_CODE", "TR"),
+                                             
                                              new XElement("TOWN", TOWN),
-                                             new XElement("CITY_CODE", "TR"),
+                                             //new XElement("CITY_CODE", "TR"),
                                              new XElement("CITY", CITY),
                                              new XElement("COUNTRY_CODE", "TR"),
-                                             new XElement("COUNTRY", "TÜRKİYE"),
+                                             new XElement("COUNTRY", "Türkiye"),
                                              //postakodu
-                                             new XElement("TAX_ID", V.items_invoice_taxNumber),
+                                             new XElement("TAX_ID", V.ItemsInvoiceTaxNumber),
                                              new XElement("TAX_OFFICE", TAX_OFFICE),
-                                             new XElement("CORRESP_LANG", 1),
+                                             //new XElement("CORRESP_LANG", 1),
                                              new XElement("AUTO_PAID_BANK", 0),
                                              new XElement("CL_ORD_FREQ", 1),
-                                             new XElement("LOGOID", "0"),
-                                             new XElement("E_MAIL", V.items_invoice_address_email),
-                                             new XElement("EARCHIVE_SEND_MODE", 1),
-                                             new XElement("PROFILE_ID", 2),
-                                             new XElement("EARCHIVE_SEND_MODE", "1"),
-                                             new XElement("INSTEAD_OF_DISPATCH", "1"),
+                                             new XElement("CELL_PHONE", 0),
                                              new XElement("INVOICE_PRNT_CNT", 1),
+                                              //< ORGLOGOID ></ ORGLOGOID >
+                                             new XElement("PURCHBRWS", 1),
+                                             new XElement("SALESBRWS", 1),
+                                             new XElement("IMPBRWS", 1),
+                                             new XElement("EXPBRWS", 1),
+                                             new XElement("FINBRWS", 1),
+                                             new XElement("COLLATRLRISK_TYPE", 1),
+                                             new XElement("RISK_TYPE1", 1),
+                                             new XElement("RISK_TYPE2", 1),
+                                             new XElement("RISK_TYPE3", 1),
+                                             new XElement("ACCEPT_EINV", 1),
+                                             new XElement("PROFILE_ID", 2),
+                                             new XElement("EARCHIVE_SEND_MODE", 1),
+                                             new XElement("POST_LABEL", CODE[0]),
+                                             new XElement("SENDER_LABEL", CODE[0]),
+                                             new XElement("INSTEAD_OF_DISPATCH", "1"),
+                                             //?? CLNTC_2022.12.08_20.05.16 ya göre ekstra eklenenler 
+											 //bazı carilerde var bunda yoktu
+                                             new XElement("DISTRICT", DISTRICT),
+                                             new XElement("E_MAIL", V.ItemsInvoiceAddressEmail),
+                                             new XElement("LOGOID", "0"),
+                                             new XElement("EARCHIVE_SEND_MODE", "1"),
                                              new XElement("CONTACT", NAME.Split(' ').Take(NAME.Split(' ').Length - 1)),
                                              new XElement("CONTACT2", NAME.Split(' ').Last())
-                                       //[NAME[z].Split(' ').Length - 1]
-                                       //,
-                                       //     new XElement("POST_LABEL", POST_LABEL[z]),
-                                       //    new XElement("SENDER_LABEL", SENDER_LABEL[z])
-                                       //new XElement("EARC_EMAIL_ADDRESS1", EARC_EMAIL_ADDRESS1[i])
-                                       )//AR_AP end 
-                                       )  //AR_APSSSS end
+                                             //??   
+                                                
+                                             )//AR_AP end 
+                                         )  //AR_APSSSS end
                                        );//documant end
 
 
@@ -348,20 +359,25 @@ namespace DatabaseToXml
                                 }
                                 #endregion
                             }
-                            //her orderın içindeki çoklu olabilen değer VE DEĞERLER
-                            string[] Totalamount = stringArrayDoldur("SELECT  items_totalPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] unitPrice = stringArrayDoldur("SELECT  items_unitPrice_amount FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] vatRate = stringArrayDoldur("SELECT  items_vatRate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] quantity = stringArrayDoldur("SELECT  items_quantity FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] dueDate = stringArrayDoldur("SELECT  items_dueDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] RESERVE_DATE = stringArrayDoldur("SELECT  items_lastStatusUpdateDate FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] SKUasMasterCode = stringArrayDoldur("SELECT  items_sku FROM [db_gulSistem].[dbo].[tbl_siparis] where items_orderNumber=" + item + "order by items_orderNumber asc");
-                            string[] MASTER_DEF = stringArrayDoldur("SELECT  UrunAd FROM [db_gulSistem].[dbo].[tbl_paketTemp] where siparisNo=" + item + "order by siparisNo asc");
-
+                        db_gulSistemContext db1 = new db_gulSistemContext();
+                        //her orderın içindeki çoklu olabilen değer VE DEĞERLER
+                        string[] Totalamount = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsTotalPriceAmount).ToArray();
+                        string[] unitPrice = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsUnitPriceAmount).ToArray();
+                        string[] vatRate = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsVatRate).ToArray();
+                        string[] quantity = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsQuantity).ToArray();
+                        string[] dueDate = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsDueDate).ToArray();
+                        string[] RESERVE_DATE = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsLastStatusUpdateDate).ToArray();
+                        string[] SKUasMasterCode = db1.TblSiparis.Where(c => c.ItemsOrderNumber == item).Select(a => a.ItemsSku).ToArray();
+                        string[] MASTER_DEF = db1.TblPaketTemps.Where(c => c.SiparisNo == item).Select(a => a.UrunAd).ToArray();
+                            
+                        
+                        
+                        
+                         
                             XElement[] a = new XElement[Totalamount.Length];
 
-                            var pakettemp = gulsistem.tbl_paketTemp;
-                            var packet = pakettemp.Select(b => b).Where(c => c.siparisNo == V.items_orderNumber).ToList();
+                            var pakettemp = db.TblPaketTemps;
+                            var packet = pakettemp.Select(b => b).Where(c => c.SiparisNo == V.ItemsOrderNumber).ToList();
 
 
                            
@@ -454,10 +470,10 @@ namespace DatabaseToXml
                                     #region SatişSiparişi_DOC
                                 }
                             
-                                string orderDATEFİX = DateFixes(V.items_orderDate.ToString().Split(' ')[0]);
+                                string orderDATEFİX = DateFixes(V.ItemsOrderDate.ToString().Split(' ')[0]);
                    
 
-                        string[] saatDizisi = V.items_orderDate.ToString().Split(' ')[1].Split(':');
+                        string[] saatDizisi = V.ItemsOrderDate.ToString().Split(' ')[1].Split(':');
                                 XElement transactions = new XElement("TRANSACTIONS");
                                 transactions.Add(a);
 
@@ -465,23 +481,23 @@ namespace DatabaseToXml
                                     new XElement("SALES_ORDERS",
                                       new XElement("ORDER_SLIP",
                                      // new XElement("NUMBER", NUMBER[i]),
-                                     new XElement("DOC_TRACK_NR", V.items_orderNumber),//@AYNI1
+                                     new XElement("DOC_TRACK_NR", V.ItemsOrderNumber),//@AYNI1
                                      new XElement("DATE", orderDATEFİX),
                                      new XElement("TIME", SaatFonksiyonu(saatDizisi[0], saatDizisi[1], saatDizisi[2])),
-                                     new XElement("DOC_NUMBER", V.items_orderNumber),
+                                     new XElement("DOC_NUMBER", V.ItemsOrderNumber),
                                      new XElement("AUXIL_CODE", "HB Öder"),
                                      new XElement("ARP_CODE", CODE),
                                      new XElement("RC_RATE", "1"),
-                                     new XElement("NOTES1", V.items_invoice_address_name),
-                                     new XElement("NOTES2", V.items_invoice_address_district),
-                                     new XElement("NOTES3", V.items_invoice_address_town),
-                                     new XElement("NOTES5", V.items_invoice_address_city),
+                                     new XElement("NOTES1", V.ItemsInvoiceAddressName),
+                                     new XElement("NOTES2", V.ItemsInvoiceAddressDistrict),
+                                     new XElement("NOTES3", V.ItemsInvoiceAddressTown),
+                                     new XElement("NOTES5", V.ItemsInvoiceAddressCity),
                                      new XElement("ORDER_STATUS", "4"),
                                      new XElement("CURRSEL_TOTAL", "2"),
                                     transactions
                                     ,//Transactions Altı
-                                   new XElement("CUST_ORD_NO", V.items_orderNumber),//@AYNI1
-                                   new XElement("DOC_TRACKING_NR", V.items_orderNumber)//@AYNI1
+                                   new XElement("CUST_ORD_NO", V.ItemsOrderNumber),//@AYNI1
+                                   new XElement("DOC_TRACKING_NR", V.ItemsOrderNumber)//@AYNI1
                                 )
                        //orderslipin altı
                        )
@@ -490,13 +506,19 @@ namespace DatabaseToXml
                        );
                                 SatışlarDocument.Declaration = new XDeclaration("1.0", "ISO-8859-9", "");
                                 System.IO.Directory.CreateDirectory(savingPath + "\\SatışSipariş");
-                                SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + V.items_orderNumber + ".xml");
+                                SatışlarDocument.Save(savingPath + "\\SatışSipariş\\" + V.ItemsOrderNumber + ".xml");
 
                                 CombineDocuments(SatısCombined, SatışlarDocument);
                         #endregion
 
 
-                        gulsistem.Database.ExecuteSqlCommand("Update tbl_siparis SET xmlYapildi = 1 where items_orderNumber = '" + V.items_orderNumber + "'");
+                       // db.Database.ExecuteSqlCommand("Update tbl_siparis SET xmlYapildi = 1 where items_orderNumber = '" + V.ItemsOrderNumber + "'");
+                        using (var q = new db_gulSistemContext())
+                        {
+                            q.Database.ExecuteSqlRaw("Update tbl_siparis SET xml = 1 where items_orderNumber = '" + V.ItemsOrderNumber + "'");
+                        }
+
+
                         progressBar1.Maximum = query.Count();
                             progressBar1.Value++;
                         }
@@ -516,7 +538,7 @@ namespace DatabaseToXml
 
                         }
 
-                    }
+                }
                 
                 finally
                 {
@@ -547,7 +569,7 @@ namespace DatabaseToXml
 
         }
     }
-
+ 
 
 }
 

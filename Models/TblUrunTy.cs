@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DatabaseToXml.Models
+{
+    public partial class TblUrunTy
+    {
+        public int UruntyId { get; set; }
+        public string? OrderNumber { get; set; }
+        public string? GrossAmount { get; set; }
+        public string? TotalDiscount { get; set; }
+        public string? TotalTyDiscount { get; set; }
+        public string? TaxNumber { get; set; }
+        public string? CustomerFirstName { get; set; }
+        public string? CustomerEmail { get; set; }
+        public string? CustomerId { get; set; }
+        public string? CustomerLastName { get; set; }
+        public string? Id { get; set; }
+        public string? CargoTrackingNumber { get; set; }
+        public string? CargoTrackingLink { get; set; }
+        public string? CargoSenderNumber { get; set; }
+        public string? CargoProviderName { get; set; }
+        public string? OrderDate { get; set; }
+        public string? TcIdentityNumber { get; set; }
+        public string? CurrencyCode { get; set; }
+        public string? ShipmentPackageStatus { get; set; }
+        public string? Status { get; set; }
+        public string? DeliveryType { get; set; }
+        public string? TimeSlotId { get; set; }
+        public string? ScheduledDeliveryStoreId { get; set; }
+        public string? EstimatedDeliveryStartDate { get; set; }
+        public string? EstimatedDeliveryEndDate { get; set; }
+        public string? TotalPrice { get; set; }
+        public string? DeliveryAddressType { get; set; }
+        public string? AgreedDeliveryDate { get; set; }
+        public string? FastDelivery { get; set; }
+        public string? OriginShipmentDate { get; set; }
+        public string? LastModifiedDate { get; set; }
+        public string? Commercial { get; set; }
+        public string? FastDeliveryType { get; set; }
+        public string? DeliveredByService { get; set; }
+        public string? InvoiceAddressId { get; set; }
+        public string? InvoiceAddressFirstName { get; set; }
+        public string? InvoiceAddressLastName { get; set; }
+        public string? InvoiceAddressCompany { get; set; }
+        public string? InvoiceAddressAddress1 { get; set; }
+        public string? InvoiceAddressAddress2 { get; set; }
+        public string? InvoiceAddressCity { get; set; }
+        public string? InvoiceAddressCityCode { get; set; }
+        public string? InvoiceAddressDistrict { get; set; }
+        public string? InvoiceAddressDistrictId { get; set; }
+        public string? InvoiceAddressPostalCode { get; set; }
+        public string? InvoiceAddressCountryCode { get; set; }
+        public string? InvoiceAddressNeighborhoodId { get; set; }
+        public string? InvoiceAddressNeighborhood { get; set; }
+        public string? InvoiceAddressPhone { get; set; }
+        public string? InvoiceAddressFullAddress { get; set; }
+        public string? InvoiceAddressFullName { get; set; }
+        public string? InvoiceAddressTaxOffice { get; set; }
+        public string? InvoiceAddressTaxNumber { get; set; }
+        public string? InvoiceAddressIsEinvoiceAvailable { get; set; }
+        public string? LineItemPrice { get; set; }
+        public string? LineItemDiscount { get; set; }
+        public string? LineItemTyDiscount { get; set; }
+        public string? Quantity { get; set; }
+        public string? SalesCampaignId { get; set; }
+        public string? ProductSize { get; set; }
+        public string? MerchantSku { get; set; }
+        public string? ProductName { get; set; }
+        public string? ProductCode { get; set; }
+        public string? MerchantId { get; set; }
+        public string? Amount { get; set; }
+        public string? Discount { get; set; }
+        public string? TyDiscount { get; set; }
+        public string? CurrencyCodety { get; set; }
+        public string? ProductColor { get; set; }
+        public string? Idty { get; set; }
+        public string? Sku { get; set; }
+        public string? VatBaseAmount { get; set; }
+        public string? Barcode { get; set; }
+        public string? OrderLineItemStatusName { get; set; }
+        public string? Price { get; set; }
+        public string? CreatedDate { get; set; }
+        public string? Statusty { get; set; }
+        public string? Idk { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Company { get; set; }
+        public string? Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public string? City { get; set; }
+        public string? CityCode { get; set; }
+        public string? District { get; set; }
+        public string? DistrictId { get; set; }
+        public string? PostalCode { get; set; }
+        public string? CountryCode { get; set; }
+        public string? NeighborhoodId { get; set; }
+        public string? Neighborhood { get; set; }
+        public string? Phone { get; set; }
+        public string? FullAddress { get; set; }
+        public string? FullName { get; set; }
+    }
+}
