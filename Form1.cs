@@ -336,7 +336,7 @@ namespace Gülsistem_V8.xml
                                              new XElement("POST_LABEL", CODE[0]),
                                              new XElement("SENDER_LABEL", CODE[0]),
                                              new XElement("INSTEAD_OF_DISPATCH", "1"),
-                                             //?? CLNTC_2022.12.08_20.05.16 ya göre ekstra eklenenler 
+                                             //?? CLNTC_2022.12.08_20.05.16 ya göre ekstra eklenenler
 											 //bazı carilerde var bunda yoktu
                                              new XElement("DISTRICT", DISTRICT),
                                              new XElement("E_MAIL", V.ItemsInvoiceAddressEmail),
