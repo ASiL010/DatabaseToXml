@@ -199,7 +199,7 @@ namespace Gülsistem_V8.xml
                     else
                     {
                         // query = db.Database.SqlQuery<string>("Select Distinct (items_orderNumber) from [db_gulSistem].[dbo].[tbl_siparis] where  xmlYapildi = 0 and items_orderDate >= @a and items_orderDate < @b ", new SqlParameter("@a", KüçükDate.Value.Date), new SqlParameter("@b", BüyükDate.Value.AddDays(1).Date)).ToList();
-                        query=  db.TblSiparis.Where(c => c.Xml == false && c.ItemsOrderDate >= KüçükDate.Value.Date && c.ItemsOrderDate < BüyükDate.Value.AddDays(1).Date).Select(a=>a.ItemsOrderNumber).Distinct().ToList();
+                        query=  db.TblSiparis.Where(c => c.Xml == false &&db.TblPaketTemps.Any(sp=>sp.SiparisNo==c.ItemsOrderNumber) && c.ItemsOrderDate >= KüçükDate.Value.Date && c.ItemsOrderDate < BüyükDate.Value.AddDays(1).Date).Select(a=>a.ItemsOrderNumber).Distinct().ToList();
                     }
 
 
